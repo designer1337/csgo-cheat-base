@@ -175,7 +175,6 @@
     <ClInclude Include="dependencies\interfaces\i_console.hpp" />
     <ClInclude Include="dependencies\interfaces\i_base_client_dll.hpp" />
     <ClInclude Include="dependencies\interfaces\i_client_entity_list.hpp" />
-    <ClInclude Include="dependencies\interfaces\i_client_mode.hpp" />
     <ClInclude Include="dependencies\interfaces\ienginetrace.hpp" />
     <ClInclude Include="dependencies\interfaces\i_game_event_manager.hpp" />
     <ClInclude Include="dependencies\interfaces\i_input.hpp" />

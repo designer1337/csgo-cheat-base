@@ -6,7 +6,6 @@
 #include "i_base_client_dll.hpp"
 #include "i_client_entity_list.hpp"
 #include "iv_engine_client.hpp"
-#include "i_client_mode.hpp"
 #include "i_client_state.hpp"
 #include "i_panel.hpp"
 #include "i_surface.hpp"
@@ -58,9 +57,10 @@ namespace interfaces {
 
 				break;
 			}
+		
 
 			if (!result)
-				throw std::runtime_error("failed to initialize interface.");
+				throw std::runtime_error(interface_name.c_str());
 
 			return reinterpret_cast<ret*>(result);
 		}
