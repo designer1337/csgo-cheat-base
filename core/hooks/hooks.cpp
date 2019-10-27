@@ -18,15 +18,13 @@ hooks::paint_traverse::fn paint_traverse_original = nullptr;
 hooks::lock_cursor::fn lock_cursor_original = nullptr;
 hooks::in_key_event::fn in_key_event_original = nullptr;
 
-unsigned int get_virtual(void* class_, unsigned int index) {
-	return (unsigned int)(*(int**)class_)[index];
-}
+unsigned int get_virtual(void* class_, unsigned int index) { return (unsigned int)(*(int**)class_)[index]; }
 
 bool hooks::initialize() {
-	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, create_move::index));
-	auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, paint_traverse::index));
-	auto lock_cursor_target = reinterpret_cast<void*>(get_virtual(interfaces::surface, lock_cursor::index));
-	auto in_key_event_target = reinterpret_cast<void*>(get_virtual(interfaces::client, in_key_event::index));
+	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
+	auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
+	auto lock_cursor_target = reinterpret_cast<void*>(get_virtual(interfaces::surface, 67));
+	auto in_key_event_target = reinterpret_cast<void*>(get_virtual(interfaces::client, 21));
 
 	if (MH_Initialize() != MH_OK) {
 		throw std::runtime_error("failed to initialize MH_Initialize.");

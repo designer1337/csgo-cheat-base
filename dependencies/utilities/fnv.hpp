@@ -15,16 +15,16 @@ namespace fnv_1a {
 
 	template< >
 	struct fnv1a< uint32_t > : public fnv_internal< uint32_t > {
-		constexpr static uint32_t hash(char const* const aString, const uint32_t val = default_offset_basis) {
-			return (aString[0] == '\0')
+		constexpr static uint32_t hash(char const* string, const uint32_t val = default_offset_basis) {
+			return (string[0] == '\0')
 				? val
-				: hash(&aString[1], (val ^ uint32_t(aString[0])) * prime);
+				: hash(&string[1], (val ^ uint32_t(string[0])) * prime);
 		}
 
-		constexpr static uint32_t hash(wchar_t const* const aString, const uint32_t val = default_offset_basis) {
-			return (aString[0] == L'\0')
+		constexpr static uint32_t hash(wchar_t const* string, const uint32_t val = default_offset_basis) {
+			return (string[0] == L'\0')
 				? val
-				: hash(&aString[1], (val ^ uint32_t(aString[0])) * prime);
+				: hash(&string[1], (val ^ uint32_t(string[0])) * prime);
 		}
 	};
 }

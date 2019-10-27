@@ -59,6 +59,9 @@ namespace interfaces {
 				break;
 			}
 
+			if (!result)
+				throw std::runtime_error("failed to initialize interface.");
+
 			return reinterpret_cast<ret*>(result);
 		}
 

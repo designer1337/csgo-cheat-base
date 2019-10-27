@@ -1,15 +1,19 @@
 #pragma once
 
-template <typename T>
+template<typename T>
 class singleton {
+protected:
+	singleton() { }
+	~singleton() { }
+
+	singleton(const singleton&) = delete;
+	singleton& operator=(const singleton&) = delete;
+
+	singleton(singleton&&) = delete;
+	singleton& operator=(singleton&&) = delete;
 public:
-	static T* get()
-	{
-		static T* _inst = nullptr;
-
-		if (!_inst)
-			_inst = new T();
-
-		return _inst;
+	static T& get() {
+		static T inst{};
+		return inst;
 	}
 };
