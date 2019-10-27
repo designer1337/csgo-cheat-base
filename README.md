@@ -1,5 +1,6 @@
 # info
 basic sdk for csgo. it has everything u need for fully featured cheat. coded in snake_case.
+![image](https://i.imgur.com/iy6b0gi.png)
 
 # it comes with
 - undetected hooking library (https://github.com/TsudaKageyu/minhook)
