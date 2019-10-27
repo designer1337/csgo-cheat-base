@@ -8,7 +8,9 @@ void render::setup() {
 
 	interfaces::surface->set_font_glyph(render::fonts::watermark_font, "Tahoma", 12, 500, 0, 0, font_flags::fontflag_dropshadow);
 
+#ifdef debug_build
 	console::log("[setup] render initialized!\n");
+#endif
 }
 
 /*gladiator cheatz*/

@@ -57,6 +57,8 @@ bool interfaces::initialize() {
 	move_helper = **(player_move_helper***)(utilities::pattern_scan(GetModuleHandleA("client_panorama.dll"), sig_player_move_helper) + 2);
 	weapon_system = *(i_weapon_system**)(utilities::pattern_scan(GetModuleHandleA("client_panorama.dll"), sig_weapon_data) + 2);
 
+#ifdef debug_build
 	console::log("[setup] interfaces initialized!\n");
+#endif
 	return true;
 }
