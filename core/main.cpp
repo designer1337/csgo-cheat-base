@@ -15,17 +15,16 @@ DWORD WINAPI initialize(void* instance) {
 	try {
 		interfaces::initialize();
 		hooks::initialize();
+		fgui_input::initialize();
+		fgui_renderer::initialize();
+		gui::initialize();
+		render::setup();
 	}
 
 	catch (const std::runtime_error & error) {
 		MessageBoxA(NULL, error.what(), "csgo-cheat error!", MB_OK | MB_ICONERROR);
 		FreeLibraryAndExitThread(static_cast<HMODULE>(instance), 0);
 	}
-
-	fgui_input::initialize();
-	fgui_renderer::initialize();
-	gui::initialize();
-	render::setup();
 
 	while (!GetAsyncKeyState(VK_END))
 		std::this_thread::sleep_for(std::chrono::milliseconds(50));
