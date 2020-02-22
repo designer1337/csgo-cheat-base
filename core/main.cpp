@@ -14,10 +14,10 @@ DWORD WINAPI initialize(void* instance) {
 
 	try {
 		interfaces::initialize();
-		hooks::initialize();
 		fgui_input::initialize();
 		fgui_renderer::initialize();
 		gui::initialize();
+		hooks::initialize();
 		render::setup();
 	}
 
