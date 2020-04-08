@@ -40,20 +40,12 @@ namespace interfaces {
 			case interface_type::index:
 				result = fn(interface_name.c_str(), nullptr);
 
-#ifdef debug_build
-				console::log("interface %s found at 0x%p", interface_name.c_str(), result);
-#endif
-
 				break;
 			case interface_type::bruteforce:
 				char buf[128];
 
 				for (uint32_t i = 0; i <= 100; i++) {
 					memset((void*)buf, 0, sizeof buf);
-
-#ifdef debug_build
-					console::log(buf, "%s%03i", interface_name.c_str(), i);
-#endif
 
 					result = fn(interface_name.c_str(), nullptr);
 
@@ -64,7 +56,6 @@ namespace interfaces {
 				break;
 			}
 		
-
 			if (!result)
 				throw std::runtime_error(interface_name.c_str());
 

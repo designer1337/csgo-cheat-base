@@ -4,6 +4,10 @@
 namespace console {
 	void attach(const char* title);
 	void release();
-	void log_angles(vec3_t angles);
-	void log(const char* format, ...);
+
+	template <typename ... Args>
+	void log(char const* const format, Args const& ... args) {
+		printf(format, args ...);
+	}
+
 }
