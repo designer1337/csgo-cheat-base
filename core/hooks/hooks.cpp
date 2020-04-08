@@ -56,9 +56,7 @@ bool hooks::initialize() {
 		return false;
 	}
 
-#ifdef debug_build
 	console::log("[setup] hooks initialized!\n");
-#endif
 	return true;
 }
 

@@ -8,9 +8,7 @@ DWORD WINAPI initialize(void* instance) {
 	while (!GetModuleHandleA("serverbrowser.dll"))
 		Sleep(200);
 
-#ifdef debug_build
 	console::attach("csgo-cheat console");
-#endif
 
 	try {
 		interfaces::initialize();
@@ -35,9 +33,7 @@ DWORD WINAPI initialize(void* instance) {
 BOOL WINAPI release() {
 	hooks::release();
 
-#ifdef debug_build
 	console::release();
-#endif
 
 	return TRUE;
 }
