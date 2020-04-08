@@ -8,7 +8,7 @@ DWORD WINAPI initialize(void* instance) {
 	while (!GetModuleHandleA("serverbrowser.dll"))
 		Sleep(200);
 
-	console::attach("csgo-cheat console");
+	console::initialize("csgo-cheat console");
 
 	try {
 		interfaces::initialize();
@@ -16,7 +16,7 @@ DWORD WINAPI initialize(void* instance) {
 		fgui_renderer::initialize();
 		gui::initialize();
 		hooks::initialize();
-		render::setup();
+		render::initialize();
 	}
 
 	catch (const std::runtime_error & error) {

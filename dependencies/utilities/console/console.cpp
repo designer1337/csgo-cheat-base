@@ -1,6 +1,6 @@
 #include "console.hpp"
 
-void console::attach(const char* title) {
+void console::initialize(const char* title) {
 	AllocConsole();
 
 	freopen_s((_iobuf * *)__acrt_iob_func(0), "conin$", "r", (_iobuf*)__acrt_iob_func(0));

@@ -18,7 +18,7 @@ enum font_flags {
 };
 
 namespace render {
-	void setup();
+	void initialize();
 
 	void draw_3d_cube(float scalar, vec3_t angles, vec3_t middle_origin, color outline);
 	void draw_line(int x1, int y1, int x2, int y2, color colour);

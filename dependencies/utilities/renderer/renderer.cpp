@@ -3,7 +3,7 @@
 
 unsigned long render::fonts::watermark_font;
 
-void render::setup() {
+void render::initialize() {
 	render::fonts::watermark_font = interfaces::surface->font_create();
 
 	interfaces::surface->set_font_glyph(render::fonts::watermark_font, "Tahoma", 12, 500, 0, 0, font_flags::fontflag_dropshadow);
