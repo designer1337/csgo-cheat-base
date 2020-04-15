@@ -1,6 +1,6 @@
 #include "framework.hpp"
 
-//sadly i don't know who is the original framework creator
+//credits to thugger for menu framework ( thugger#7268 )
 POINT cur;
 
 void menu_framework::group_box(int x, int y, int w, int h, unsigned long font, const char* string) {
