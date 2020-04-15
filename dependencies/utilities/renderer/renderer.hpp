@@ -20,16 +20,15 @@ enum font_flags {
 namespace render {
 	void initialize();
 
-	void draw_3d_cube(float scalar, vec3_t angles, vec3_t middle_origin, color outline);
 	void draw_line(int x1, int y1, int x2, int y2, color colour);
 	void draw_text_wchar(int x, int y, unsigned long font, const wchar_t* string, color colour);
 	void draw_text_string(int x, int y, unsigned long font, std::string string, bool text_centered, color colour);
 	void draw_rect(int x, int y, int w, int h, color color);
 	void draw_filled_rect(int x, int y, int w, int h, color colour);
 	void draw_outline(int x, int y, int w, int h, color colour);
-	void draw_textured_polygon(int n, fgui::vertex* vertice, color col);
+	void draw_textured_polygon(int n, vertex_t* vertice, color col);
 	void draw_circle(int x, int y, int r, int s, color col);
-	void get_text_size(unsigned long font, std::string string, int w, int h);
+	vec2_t get_text_size(unsigned long font, std::string text);
 
 	namespace fonts {
 		extern unsigned long watermark_font;

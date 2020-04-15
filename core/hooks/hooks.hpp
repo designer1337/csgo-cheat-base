@@ -19,9 +19,4 @@ namespace hooks {
 		void __stdcall hook();
 	}
 
-	namespace in_key_event {
-		using fn = int(__stdcall*)(int, int, const char*);
-		int __fastcall hook(void* ecx, int edx, int event_code, int key_num, const char* current_binding);
-	}
-
 }

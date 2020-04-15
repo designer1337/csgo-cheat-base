@@ -1,5 +1,4 @@
 #include "renderer.hpp"
-#pragma once
 
 unsigned long render::fonts::watermark_font;
 
@@ -9,45 +8,6 @@ void render::initialize() {
 	interfaces::surface->set_font_glyph(render::fonts::watermark_font, "Tahoma", 12, 500, 0, 0, font_flags::fontflag_dropshadow);
 
 	console::log("[setup] render initialized!\n");
-}
-
-/*gladiator cheatz*/
-void render::draw_3d_cube(float scalar, vec3_t angles, vec3_t middle_origin, color outline) {
-	vec3_t forward, right, up;
-	math::angle_vectors(angles, &forward, &right, &up);
-
-	vec3_t points[8];
-	points[0] = middle_origin - (right * scalar) + (up * scalar) - (forward * scalar);
-	points[1] = middle_origin + (right * scalar) + (up * scalar) - (forward * scalar); 
-	points[2] = middle_origin - (right * scalar) - (up * scalar) - (forward * scalar); 
-	points[3] = middle_origin + (right * scalar) - (up * scalar) - (forward * scalar); 
-
-	points[4] = middle_origin - (right * scalar) + (up * scalar) + (forward * scalar);
-	points[5] = middle_origin + (right * scalar) + (up * scalar) + (forward * scalar);
-	points[6] = middle_origin - (right * scalar) - (up * scalar) + (forward * scalar); 
-	points[7] = middle_origin + (right * scalar) - (up * scalar) + (forward * scalar); 
-
-	vec3_t points_screen[8];
-	for (int i = 0; i < 8; i++)
-		if (!math::world_to_screen(points[i], points_screen[i]))
-			return;
-
-	interfaces::surface->set_drawing_color(outline.r, outline.g, outline.b, outline.a);
-
-	interfaces::surface->draw_line(points_screen[0].x, points_screen[0].y, points_screen[1].x, points_screen[1].y);
-	interfaces::surface->draw_line(points_screen[0].x, points_screen[0].y, points_screen[2].x, points_screen[2].y);
-	interfaces::surface->draw_line(points_screen[3].x, points_screen[3].y, points_screen[1].x, points_screen[1].y);
-	interfaces::surface->draw_line(points_screen[3].x, points_screen[3].y, points_screen[2].x, points_screen[2].y);
-
-	interfaces::surface->draw_line(points_screen[0].x, points_screen[0].y, points_screen[4].x, points_screen[4].y);
-	interfaces::surface->draw_line(points_screen[1].x, points_screen[1].y, points_screen[5].x, points_screen[5].y);
-	interfaces::surface->draw_line(points_screen[2].x, points_screen[2].y, points_screen[6].x, points_screen[6].y);
-	interfaces::surface->draw_line(points_screen[3].x, points_screen[3].y, points_screen[7].x, points_screen[7].y);
-
-	interfaces::surface->draw_line(points_screen[4].x, points_screen[4].y, points_screen[5].x, points_screen[5].y);
-	interfaces::surface->draw_line(points_screen[4].x, points_screen[4].y, points_screen[6].x, points_screen[6].y);
-	interfaces::surface->draw_line(points_screen[7].x, points_screen[7].y, points_screen[5].x, points_screen[5].y);
-	interfaces::surface->draw_line(points_screen[7].x, points_screen[7].y, points_screen[6].x, points_screen[6].y);
 }
 
 void render::draw_line(int x1, int y1, int x2, int y2, color colour) {
@@ -92,7 +52,7 @@ void render::draw_outline(int x, int y, int w, int h, color colour) {
 	interfaces::surface->draw_outlined_rect(x, y, w, h);
 }
 
-void render::draw_textured_polygon(int n, fgui::vertex* vertice, color col) {
+void render::draw_textured_polygon(int n, vertex_t* vertice, color col) {
 	static int texture_id = interfaces::surface->create_new_texture_id(true);
 	static unsigned char buf[4] = { 255, 255, 255, 255 };
 	interfaces::surface->set_texture_rgba(texture_id, buf, 1, 1);
@@ -113,9 +73,11 @@ void render::draw_circle(int x, int y, int r, int s, color col) {
 	}
 }
 
-void render::get_text_size(unsigned long font, std::string string, int w, int h) {
-	std::wstring text = std::wstring(string.begin(), string.end());
-	const wchar_t* out = text.c_str();
+vec2_t render::get_text_size(unsigned long font, std::string text) {
+	std::wstring a(text.begin(), text.end());
+	const wchar_t* wstr = a.c_str();
+	static int w, h;
 
-	interfaces::surface->get_text_size(font, out, w, h);
+	interfaces::surface->get_text_size(font, wstr, w, h);
+	return { static_cast<float>(w), static_cast<float>(h) };
 }

@@ -1,22 +1,18 @@
 #include "../dependencies/common_includes.hpp"
 #include "features/features.hpp"
-#include "menu/fgui_renderer.hpp"
-#include "menu/fgui_input.hpp"
-#include "menu/fgui_menu.hpp"
 
 DWORD WINAPI initialize(void* instance) {
 	while (!GetModuleHandleA("serverbrowser.dll"))
 		Sleep(200);
 
+#ifdef  debug_build
 	console::initialize("csgo-cheat console");
+#endif
 
 	try {
 		interfaces::initialize();
-		fgui_input::initialize();
-		fgui_renderer::initialize();
-		gui::initialize();
-		hooks::initialize();
 		render::initialize();
+		hooks::initialize();
 	}
 
 	catch (const std::runtime_error & error) {
@@ -33,7 +29,9 @@ DWORD WINAPI initialize(void* instance) {
 BOOL WINAPI release() {
 	hooks::release();
 
+#ifdef debug_build
 	console::release();
+#endif
 
 	return TRUE;
 }

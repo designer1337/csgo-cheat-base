@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <cstdint>
 #include <string>
+#include <stdexcept>
 
 #include "i_base_client_dll.hpp"
 #include "i_client_entity_list.hpp"

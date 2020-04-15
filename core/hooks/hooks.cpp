@@ -2,8 +2,7 @@
 #include "../../dependencies/common_includes.hpp"
 #include "../features/features.hpp"
 #include "../features/misc/engine_prediction.hpp"
-#include "../menu/FGUI/FGUI.hh"
-#include "../menu/fgui_menu.hpp"
+#include "../menu/menu.hpp"
 
 /*how to get entity:
 
@@ -16,7 +15,6 @@
 hooks::create_move::fn create_move_original = nullptr;
 hooks::paint_traverse::fn paint_traverse_original = nullptr;
 hooks::lock_cursor::fn lock_cursor_original = nullptr;
-hooks::in_key_event::fn in_key_event_original = nullptr;
 
 unsigned int get_virtual(void* class_, unsigned int index) { return (unsigned int)(*(int**)class_)[index]; }
 
@@ -24,7 +22,6 @@ bool hooks::initialize() {
 	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
 	auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
 	auto lock_cursor_target = reinterpret_cast<void*>(get_virtual(interfaces::surface, 67));
-	auto in_key_event_target = reinterpret_cast<void*>(get_virtual(interfaces::client, 21));
 
 	if (MH_Initialize() != MH_OK) {
 		throw std::runtime_error("failed to initialize MH_Initialize.");
@@ -43,11 +40,6 @@ bool hooks::initialize() {
 
 	if (MH_CreateHook(lock_cursor_target, &lock_cursor::hook, reinterpret_cast<void**>(&lock_cursor_original)) != MH_OK) {
 		throw std::runtime_error("failed to initialize lock_cursor. (outdated index?)");
-		return false;
-	}
-
-	if (MH_CreateHook(in_key_event_target, &in_key_event::hook, reinterpret_cast<void**>(&in_key_event_original)) != MH_OK) {
-		throw std::runtime_error("failed to initialize in_key_event. (outdated index?)");
 		return false;
 	}
 
@@ -108,8 +100,15 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 	case fnv::hash("MatSystemTopPanel"):
 		
 		render::draw_text_string(10, 10, render::fonts::watermark_font, "csgo-cheat", false, color::white(255));
-		fgui::handler::render_window();
 
+		menu::toggle();
+		menu::render();
+
+		break;
+
+	case fnv::hash("FocusOverlayPanel"):
+		interfaces::panel->set_keyboard_input_enabled(panel, variables::menu::opened);
+		interfaces::panel->set_mouse_input_enabled(panel, variables::menu::opened);
 		break;
 	}
 
@@ -117,23 +116,6 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 }
 
 void __stdcall hooks::lock_cursor::hook() {
-	if (vars::container["#window"]->get_state()) {
-		interfaces::surface->unlock_cursor();
-		return;
-
-		interfaces::inputsystem->enable_input(false);
-	}
-	else {
-		interfaces::inputsystem->enable_input(true);
-	}
 
 	return lock_cursor_original(interfaces::surface);
 }
-
-int __fastcall hooks::in_key_event::hook(void* ecx, int edx, int event_code, int key_num, const char* current_binding) {
-
-	if (vars::container["#window"]->get_state())
-		return 0;
-
-	return in_key_event_original(event_code, key_num, current_binding);
-}           

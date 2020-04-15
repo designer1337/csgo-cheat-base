@@ -1,5 +1,4 @@
 #pragma once
-#include "../../core/menu/FGUI/FGUI.hh"
 #include "../../source-sdk/structs/vertex_t.hpp"
 
 class i_surface {
@@ -19,9 +18,8 @@ public:
 		return (*(original_fn * *)this)[25](this, r, g, b, a);
 	}
 
-	//if u dont't want to use fgui replace fgui::vertex* with valve vertex_t*
-	void draw_polygon(int n, fgui::vertex* vertice, bool clip_vertices = true) {
-		using original_fn = void(__thiscall*)(i_surface*, int, fgui::vertex*, bool);
+	void draw_polygon(int n, vertex_t* vertice, bool clip_vertices = true) {
+		using original_fn = void(__thiscall*)(i_surface*, int, vertex_t*, bool);
 		return (*(original_fn * *)this)[106](this, n, vertice, clip_vertices);
 	}
 	void draw_filled_rectangle(int x, int y, int w, int h) {
@@ -101,8 +99,8 @@ public:
 		return (*(original_fn * *)this)[44](this, std::ref(width), std::ref(height));  //width, height
 	}
 
-	void draw_textured_polygon(int vertex_count, fgui::vertex* vertex, bool clip_vertices = true) {
-		using original_fn = void(__thiscall*)(i_surface*, int, fgui::vertex*, bool);
+	void draw_textured_polygon(int vertex_count, vertex_t* vertex, bool clip_vertices = true) {
+		using original_fn = void(__thiscall*)(i_surface*, int, vertex_t*, bool);
 		return (*(original_fn * *)this)[106](this, vertex_count, vertex, clip_vertices);
 	}
 
