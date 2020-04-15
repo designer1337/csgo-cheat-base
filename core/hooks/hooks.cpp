@@ -14,14 +14,12 @@
 
 hooks::create_move::fn create_move_original = nullptr;
 hooks::paint_traverse::fn paint_traverse_original = nullptr;
-hooks::lock_cursor::fn lock_cursor_original = nullptr;
 
 unsigned int get_virtual(void* class_, unsigned int index) { return (unsigned int)(*(int**)class_)[index]; }
 
 bool hooks::initialize() {
 	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
 	auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
-	auto lock_cursor_target = reinterpret_cast<void*>(get_virtual(interfaces::surface, 67));
 
 	if (MH_Initialize() != MH_OK) {
 		throw std::runtime_error("failed to initialize MH_Initialize.");
@@ -35,11 +33,6 @@ bool hooks::initialize() {
 
 	if (MH_CreateHook(paint_traverse_target, &paint_traverse::hook, reinterpret_cast<void**>(&paint_traverse_original)) != MH_OK) {
 		throw std::runtime_error("failed to initialize paint_traverse. (outdated index?)");
-		return false;
-	}
-
-	if (MH_CreateHook(lock_cursor_target, &lock_cursor::hook, reinterpret_cast<void**>(&lock_cursor_original)) != MH_OK) {
-		throw std::runtime_error("failed to initialize lock_cursor. (outdated index?)");
 		return false;
 	}
 
@@ -113,9 +106,4 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 	}
 
 	paint_traverse_original(interfaces::panel, panel, force_repaint, allow_force);
-}
-
-void __stdcall hooks::lock_cursor::hook() {
-
-	return lock_cursor_original(interfaces::surface);
 }

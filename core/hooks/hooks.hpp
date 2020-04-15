@@ -14,9 +14,4 @@ namespace hooks {
 		void __stdcall hook(unsigned int panel, bool force_repaint, bool allow_force);
 	}
 
-	namespace lock_cursor {
-		using fn = void(__thiscall*)(void*);
-		void __stdcall hook();
-	}
-
 }
