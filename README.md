@@ -2,7 +2,7 @@
 updated version of: https://github.com/alphauc/sdk with some improvements, eg. undetected hooking library
 
 # credits
-alpha: original base, thugger: menu framework (thugger#7268), wando: netvar manager
+alpha: original base, cashsosa: menu framework (https://www.unknowncheats.me/forum/members/2669363.html), wando: netvar manager
 
 # media
 ![image](https://i.imgur.com/ZCHORTC.png)
