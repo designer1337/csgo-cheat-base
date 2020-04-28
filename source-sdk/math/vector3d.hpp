@@ -3,16 +3,18 @@
 #include <algorithm>
 
 extern float bits_to_float(std::uint32_t i);
-#define M_PI 3.14159265358979323846
-#define M_RADPI		57.295779513082f
-#define M_PI_F		((float)(M_PI))	// Shouldn't collide with anything.
-#define RAD2DEG( x  )  ( (float)(x) * (float)(180.f / M_PI_F) )
-#define DEG2RAD( x  )  ( (float)(x) * (float)(M_PI_F / 180.f) )
-
-#define FLOAT32_NAN_BITS     ( std::uint32_t ) 0x7FC00000	// not a number!
-#define FLOAT32_NAN          bits_to_float( FLOAT32_NAN_BITS )
+constexpr double M_PI = 3.14159265358979323846;
+constexpr float M_RADPI = 57.295779513082f;
+constexpr float M_PI_F = static_cast<float>(M_PI);
+constexpr float RAD2DEG(const float x) {
+	return x * (M_PI_F / 180.f);
+}
+constexpr float DEG2RAD(const float x) {
+	return x * (180.f / M_PI_F);
+}
+constexpr std::uint32_t FLOAT32_NAN_BITS = 0x7FC00000;
+const     float         FLOAT32_NAN = bits_to_float(FLOAT32_NAN_BITS);
 #define VEC_T_NAN FLOAT32_NAN
-
 #define ASSERT( _exp ) ( (void ) 0 )
 
 template <typename T>

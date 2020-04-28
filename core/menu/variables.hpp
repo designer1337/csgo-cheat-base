@@ -1,11 +1,12 @@
 #pragma once
 
 namespace variables {
-	extern bool test_bool;
-	extern float test_float;
+	inline bool test_bool = false;
+	inline float test_float = 0.f;
+
 	namespace menu {
-		extern bool opened;
-		extern int x, y;
-		extern int w, h;
+		inline bool opened = false;
+		inline int x = 140, y = 140;
+		inline int w = 400, h = 300;
 	}
 }

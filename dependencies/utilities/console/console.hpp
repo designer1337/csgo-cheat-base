@@ -7,7 +7,7 @@ namespace console {
 
 	template <typename ... Args>
 	void log(char const* const format, Args const& ... args) {
-#ifdef debug_build
+#ifdef _DEBUG
 		printf(format, args ...);
 #endif
 	}
