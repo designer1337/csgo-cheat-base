@@ -7,6 +7,6 @@ namespace variables {
 	namespace menu {
 		bool opened = false;
 		int x = 140, y = 140;
-		int w = 300, h = 300;
+		int w = 400, h = 300;
 	}
 }
