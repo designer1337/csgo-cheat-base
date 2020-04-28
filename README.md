@@ -5,4 +5,4 @@ updated version of: https://github.com/alphauc/sdk with some improvements, eg. u
 alpha: original base, cashsosa / harcuz: menu framework (https://www.unknowncheats.me/forum/members/2669363.html), wando: netvar manager
 
 # media
-![image](https://i.imgur.com/ZCHORTC.png)
+![image](https://i.imgur.com/7rKZHUL.png)
