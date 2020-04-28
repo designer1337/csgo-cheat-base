@@ -10,5 +10,5 @@ namespace utilities {
 		return (FuncType)(dwAddress);
 	}
 
-	std::uint8_t* pattern_scan(void* module, const char* signature);
+	std::uint8_t* pattern_scan(const char* module_name, const char* signature) noexcept;
 }

@@ -1,11 +1,11 @@
 #include "../dependencies/common_includes.hpp"
 #include "features/features.hpp"
 
-DWORD WINAPI initialize(void* instance) {
+unsigned long WINAPI initialize(void* instance) {
 	while (!GetModuleHandleA("serverbrowser.dll"))
 		Sleep(200);
 
-#ifdef  debug_build
+#ifdef _DEBUG
 	console::initialize("csgo-cheat console");
 #endif
 
@@ -26,28 +26,33 @@ DWORD WINAPI initialize(void* instance) {
 	FreeLibraryAndExitThread(static_cast<HMODULE>(instance), 0);
 }
 
-BOOL WINAPI release() {
+unsigned long WINAPI release() {
 	hooks::release();
 
-#ifdef debug_build
+#ifdef _DEBUG
 	console::release();
 #endif
 
 	return TRUE;
 }
 
-BOOL APIENTRY DllMain(void* instance, uintptr_t reason, void* reserved) {
-	DisableThreadLibraryCalls(static_cast<HMODULE>(instance));
+std::int32_t WINAPI DllMain(const HMODULE instance [[maybe_unused]], const unsigned long reason, const void* reserved [[maybe_unused]] ) {
+	DisableThreadLibraryCalls(instance);
 
 	switch (reason) {
-	case DLL_PROCESS_ATTACH:
-		if (auto handle = CreateThread(NULL, NULL, initialize, instance, NULL, NULL))
-			CloseHandle(handle);
-		break;
+		case DLL_PROCESS_ATTACH:
+		{
+			if (auto handle = CreateThread(nullptr, NULL, initialize, instance, NULL, nullptr))
+				CloseHandle(handle);
 
-	case DLL_PROCESS_DETACH:
-		release();
-		break;
+			break;
+		}
+
+		case DLL_PROCESS_DETACH:
+		{
+			release();
+			break;
+		}
 	}
 
 	return true;

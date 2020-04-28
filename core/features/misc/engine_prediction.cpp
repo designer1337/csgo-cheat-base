@@ -11,11 +11,11 @@ void prediction::start(c_usercmd* cmd) {
 
 	static bool initialized = false;
 	if (!initialized) {
-		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan(GetModuleHandleA("client_panorama.dll"), sig_prediction_random_seed) + 2);
+		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan("client_panorama.dll", sig_prediction_random_seed) + 2);
 		initialized = true;
 	}
 
-	*prediction_random_seed = utilities::md5::pseduo_random(cmd->command_number) & 0x7FFFFFFF;
+	*prediction_random_seed = cmd->randomseed & 0x7FFFFFFF;
 
 	old_cur_time = interfaces::globals->cur_time;
 	old_frame_time = interfaces::globals->frame_time;
@@ -37,7 +37,7 @@ void prediction::end() {
 		return;
 
 	interfaces::game_movement->finish_track_prediction_errors(csgo::local_player);
-	interfaces::move_helper->set_host(0);
+	interfaces::move_helper->set_host(nullptr);
 
 	*prediction_random_seed = -1;
 
