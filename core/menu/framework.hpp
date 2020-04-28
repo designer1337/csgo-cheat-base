@@ -1,5 +1,5 @@
 #pragma once
-#include "../../dependencies/common_includes.hpp"
+#include "../../dependencies/utilities/csgo.hpp"
 #include <string>
 
 namespace menu_framework {

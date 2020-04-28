@@ -1,4 +1,4 @@
-#include "../common_includes.hpp"
+#include "../utilities/csgo.hpp"
 
 //aimtux
 void math::correct_movement(vec3_t old_angles, c_usercmd* cmd, float old_forwardmove, float old_sidemove) {
@@ -25,42 +25,6 @@ void math::correct_movement(vec3_t old_angles, c_usercmd* cmd, float old_forward
 
 	cmd->forwardmove = cos(DEG2RAD(delta_view)) * old_forwardmove + cos(DEG2RAD(delta_view + 90.f)) * old_sidemove;
 	cmd->sidemove = sin(DEG2RAD(delta_view)) * old_forwardmove + sin(DEG2RAD(delta_view + 90.f)) * old_sidemove;
-}
-
-void math::angle_vectors_alternative(const vec3_t& angles, vec3_t* forward) {
-	float	sp, sy, cp, cy;
-
-	sy = sin(DEG2RAD(angles[1]));
-	cy = cos(DEG2RAD(angles[1]));
-
-	sp = sin(DEG2RAD(angles[0]));
-	cp = cos(DEG2RAD(angles[0]));
-
-	forward->x = cp * cy;
-	forward->y = cp * sy;
-	forward->z = -sp;
-}
-
-void math::vector_angles_alternative(const vec3_t& forward, vec3_t& angles) {
-	vec3_t view;
-	if (forward[1] == 0.f && forward[0] == 0.f) {
-		view[0] = 0.f;
-		view[1] = 0.f;
-	}
-	else {
-		view[1] = atan2(forward[1], forward[0]) * 180.f / M_PI;
-
-		if (view[1] < 0.f)
-			view[1] += 360.f;
-
-		view[2] = sqrt(forward[0] * forward[0] + forward[1] * forward[1]);
-
-		view[0] = atan2(forward[2], view[2]) * 180.f / M_PI;
-	}
-
-	angles[0] = -view[0];
-	angles[1] = view[1];
-	angles[2] = 0.f;
 }
 
 vec3_t math::calculate_angle(vec3_t& a, vec3_t& b) {
@@ -102,12 +66,12 @@ void math::transform_vector(vec3_t & a, matrix_t & b, vec3_t & out) {
 
 void math::vector_angles(vec3_t & forward, vec3_t & angles) {
 	if (forward.y == 0.0f && forward.x == 0.0f) {
-		angles.x = (forward.z > 0.0f) ? 270.0f : 90.0f; // Pitch (up/down)
-		angles.y = 0.0f; //yaw left/right
+		angles.x = (forward.z > 0.0f) ? 270.0f : 90.0f;
+		angles.y = 0.0f;
 	}
 	else {
-		angles.x = atan2(-forward.z, vec2_t(forward).length()) * -180 / static_cast<float>(pi);
-		angles.y = atan2(forward.y, forward.x) * 180 / static_cast<float>(pi);
+		angles.x = atan2(-forward.z, vec2_t(forward).length()) * -180 / static_cast<float>(M_PI);
+		angles.y = atan2(forward.y, forward.x) * 180 / static_cast<float>(M_PI);
 
 		if (angles.y > 90)
 			angles.y -= 180;

@@ -59,15 +59,12 @@ void menu_framework::slider(std::int32_t x, std::int32_t y, std::int32_t positio
 	if ((cur.x > ix) && (cur.x < ix + position) && (cur.y > yi) && (cur.y < yi + 6) && (GetAsyncKeyState(VK_LBUTTON)))
 		value = mouse_calculations(ix, y, position, 20) / (float(position) / float(max));
 
-	char text[255];
-	sprintf(text, "%s: %1.0f", string, value);
-
 	//slider background
 	render::draw_filled_rect(ix, yi, position, 6, color(36, 36, 36, 255));
 	render::draw_filled_rect(ix, yi, value * (float(position) / float(max)), 6, color(52, 134, 235, 255));
 
 	//slider label
-	render::draw_text_string(x + 2, y - 1, font, string, false, color::white());
+	render::draw_text_string(x + 2, y - 1, font, (std::stringstream{ } << string << ": " <<  std::setprecision(3) << value).str(), false, color::white());
 }
 
 bool enabled[8][2];

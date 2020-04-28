@@ -1,16 +1,8 @@
 #pragma once
-#include "../../dependencies/common_includes.hpp"
+#include "../../dependencies/utilities/csgo.hpp"
 #include "../features/features.hpp"
 #include "../features/misc/engine_prediction.hpp"
 #include "../menu/menu.hpp"
-
-/*how to get entity:
-
-	for (int i = 1; i <= interfaces::globals->max_clients; i++) {
-		auto entity = reinterpret_cast<player_t*>(interfaces::entity_list->get_client_entity(i));
-	}
-
-*/
 
 hooks::create_move::fn create_move_original = nullptr;
 hooks::paint_traverse::fn paint_traverse_original = nullptr;

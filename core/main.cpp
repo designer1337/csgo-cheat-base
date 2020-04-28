@@ -1,4 +1,4 @@
-#include "../dependencies/common_includes.hpp"
+#include "../dependencies/utilities/csgo.hpp"
 #include "features/features.hpp"
 
 unsigned long WINAPI initialize(void* instance) {
@@ -40,19 +40,17 @@ std::int32_t WINAPI DllMain(const HMODULE instance [[maybe_unused]], const unsig
 	DisableThreadLibraryCalls(instance);
 
 	switch (reason) {
-		case DLL_PROCESS_ATTACH:
-		{
-			if (auto handle = CreateThread(nullptr, NULL, initialize, instance, NULL, nullptr))
-				CloseHandle(handle);
+	case DLL_PROCESS_ATTACH: {
+		if (auto handle = CreateThread(nullptr, NULL, initialize, instance, NULL, nullptr))
+			CloseHandle(handle);
 
-			break;
-		}
+		break;
+	}
 
-		case DLL_PROCESS_DETACH:
-		{
-			release();
-			break;
-		}
+	case DLL_PROCESS_DETACH: {
+		release();
+		break;
+	}
 	}
 
 	return true;

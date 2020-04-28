@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AF041675-F00D-4A72-B40F-78D0C4BB72D9}</ProjectGuid>
-    <RootNamespace>csgo_base</RootNamespace>
+    <RootNamespace>csgo-cheat</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>csgo-cheat</ProjectName>
   </PropertyGroup>
@@ -79,6 +79,7 @@
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -100,7 +101,6 @@
     <ClCompile Include="dependencies\math\math.cpp" />
     <ClCompile Include="dependencies\utilities\console\console.cpp" />
     <ClCompile Include="dependencies\utilities\csgo.cpp" />
-    <ClCompile Include="dependencies\utilities\md5\md5.cpp" />
     <ClCompile Include="dependencies\utilities\netvars\netvars.cpp" />
     <ClCompile Include="dependencies\utilities\renderer\renderer.cpp" />
     <ClCompile Include="dependencies\utilities\utilities.cpp" />
@@ -124,7 +124,6 @@
     <ClInclude Include="dependencies\minhook\hde\table64.h" />
     <ClInclude Include="dependencies\minhook\minhook.h" />
     <ClInclude Include="dependencies\minhook\trampoline.h" />
-    <ClInclude Include="dependencies\common_includes.hpp" />
     <ClInclude Include="dependencies\interfaces\c_global_vars_base.hpp" />
     <ClInclude Include="dependencies\interfaces\i_player_movement.hpp">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
@@ -154,7 +153,6 @@
     <ClInclude Include="dependencies\math\math.hpp" />
     <ClInclude Include="dependencies\utilities\console\console.hpp" />
     <ClInclude Include="dependencies\utilities\fnv.hpp" />
-    <ClInclude Include="dependencies\utilities\md5\md5.hpp" />
     <ClInclude Include="dependencies\utilities\netvars\netvars.hpp" />
     <ClInclude Include="dependencies\utilities\renderer\renderer.hpp" />
     <ClInclude Include="dependencies\utilities\csgo.hpp" />

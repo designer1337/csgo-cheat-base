@@ -1,5 +1,5 @@
 #include "interfaces.hpp"
-#include "../common_includes.hpp"
+#include "../utilities/csgo.hpp"
 
 i_base_client_dll* interfaces::client = nullptr;
 i_input* interfaces::input = nullptr;
