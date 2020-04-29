@@ -1,10 +1,5 @@
 #include "engine_prediction.hpp"
 
-player_move_data data;
-float old_cur_time;
-float old_frame_time;
-int* prediction_random_seed;
-
 void prediction::start(c_usercmd* cmd) {
 	if (!csgo::local_player)
 		return;
