@@ -1,7 +1,9 @@
 #include "framework.hpp"
+#include "variables.hpp"
 
 //credits to harcuz for menu framework (https://www.unknowncheats.me/forum/members/2669363.html),
-POINT cur;
+POINT cursor;
+POINT cursor_corrected;
 
 void menu_framework::group_box(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, unsigned long font, const std::string string, bool show_label) {
 	//groupbox background
@@ -16,9 +18,9 @@ void menu_framework::group_box(std::int32_t x, std::int32_t y, std::int32_t w, s
 }
 
 void menu_framework::tab(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, unsigned long font, const std::string string, std::int32_t& tab, std::int32_t count, bool outline) {
-	GetCursorPos(&cur);
+	GetCursorPos(&cursor);
 
-	if ((cur.x > x) && (cur.x < x + w) && (cur.y > y) && (cur.y < y + h) && (GetAsyncKeyState(VK_LBUTTON) & 1))
+	if ((cursor.x > x) && (cursor.x < x + w) && (cursor.y > y) && (cursor.y < y + h) && (GetAsyncKeyState(VK_LBUTTON) & 1))
 		tab = count;
 
 	bool active = false;
@@ -33,11 +35,11 @@ void menu_framework::tab(std::int32_t x, std::int32_t y, std::int32_t w, std::in
 }
 
 void menu_framework::check_box(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, const std::string string, bool& var) {
-	GetCursorPos(&cur);
+	GetCursorPos(&cursor);
 
 	int w = 10, h = 10;
 
-	if ((cur.x > position) && (cur.x < position + w) && (cur.y > y) && (cur.y < y + h) && GetAsyncKeyState(VK_LBUTTON) & 1)
+	if ((cursor.x > position) && (cursor.x < position + w) && (cursor.y > y) && (cursor.y < y + h) && GetAsyncKeyState(VK_LBUTTON) & 1)
 		var = !var;
 
 	//checkbox background
@@ -49,15 +51,11 @@ void menu_framework::check_box(std::int32_t x, std::int32_t y, std::int32_t posi
 
 void menu_framework::slider(std::int32_t x, std::int32_t y, std::int32_t position, float min, float max, unsigned long font, const std::string string, float& value) {
 	int ix = x + 140;
-	GetCursorPos(&cur);
+	GetCursorPos(&cursor);
 	int yi = y + 4;
-
-	auto mouse_calculations = [](int start, int end, int _start, int _end) {
-		int value = ((1920 / 2) - (1920 / 2)) + start; return cur.x - value; 
-	};
-
-	if ((cur.x > ix) && (cur.x < ix + position) && (cur.y > yi) && (cur.y < yi + 6) && (GetAsyncKeyState(VK_LBUTTON)))
-		value = mouse_calculations(ix, y, position, 20) / (float(position) / float(max));
+	
+	if ((cursor.x > ix) && (cursor.x < ix + position) && (cursor.y > yi) && (cursor.y < yi + 6) && (GetAsyncKeyState(VK_LBUTTON)))
+		value = (cursor.x - ix) / (float(position) / float(max));
 
 	//slider background
 	render::draw_filled_rect(ix, yi, position, 6, color(36, 36, 36, 255));
@@ -67,34 +65,27 @@ void menu_framework::slider(std::int32_t x, std::int32_t y, std::int32_t positio
 	render::draw_text_string(x + 2, y - 1, font, (std::stringstream{ } << string << ": " <<  std::setprecision(3) << value).str(), false, color::white());
 }
 
-bool enabled[8][2];
-POINT two;
-bool menu_framework::menu_movement(std::int32_t& x, std::int32_t& y, std::int32_t w, std::int32_t h, std::int32_t index) {
-	for (int i = 0; i < 8; i++)
-		if (enabled[i][0] && i != index)
-			return false;
+void menu_framework::menu_movement(std::int32_t& x, std::int32_t& y, std::int32_t w, std::int32_t h) {
+	GetCursorPos(&cursor);
+	
+	if (GetAsyncKeyState(VK_LBUTTON) < 0 && (cursor.x > x && cursor.x < x + w && cursor.y > y && cursor.y < y + h)) {
+		should_drag = true;
 
-	POINT one;
-	GetCursorPos(&one);
-
-	if (GetAsyncKeyState(VK_LBUTTON) < 0) {
-		if (one.x > (x) && one.x < (x)+w && one.y >(y) && one.y < (y)+h || enabled[index][0]) {
-			enabled[index][0] = true;
-
-			if (!enabled[index][1]) {
-				two.x = one.x - x;
-				two.y = one.y - y;
-				enabled[index][1] = true;
-			}
-		}
-		else {
-			enabled[index][0] = false;
-			enabled[index][1] = false;
+		if (!should_move) {
+			cursor_corrected.x = cursor.x - x;
+			cursor_corrected.y = cursor.y - y;
+			should_move = true;
 		}
 	}
-
-	if (GetAsyncKeyState(VK_LBUTTON) == 0 && enabled[index][0]) { enabled[index][0] = false; enabled[index][1] = false; }
-	if (enabled[index][0]) { x = one.x - two.x; y = one.y - two.y; }
-
-	return true;
+	
+	if (should_drag) {
+		x = cursor.x - cursor_corrected.x;
+		y = cursor.y - cursor_corrected.y;
+	}
+	
+	if (GetAsyncKeyState(VK_LBUTTON) == 0) {
+		should_drag = false;
+		should_move = false;
+	}
 }
+
