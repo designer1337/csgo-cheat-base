@@ -43,23 +43,10 @@ float vec3_t::distance_to(const vec3_t& other) {
 	return delta.length();
 }
 
-void vec3_t::normalize(void) {
-	auto vec_normalize = [&](vec3_t & v) {
-		auto l = v.length();
-
-		if (l != 0.0f) {
-			v.x /= l;
-			v.y /= l;
-			v.z /= l;
-		}
-		else {
-			v.x = v.y = 0.0f; v.z = 1.0f;
-		}
-
-		return l;
-	};
-
-	vec_normalize(*this);
+void vec3_t::normalize() {
+	x = std::isfinite(x) ? std::remainderf(x, 360.0f) : 0.0f;
+	y = std::isfinite(y) ? std::remainderf(y, 360.0f) : 0.0f;
+	z = 0.0f;
 }
 
 vec3_t vec3_t::normalized(void) {
