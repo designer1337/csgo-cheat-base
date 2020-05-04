@@ -4,6 +4,8 @@ namespace hooks {
 	bool initialize();
 	void release();
 
+	inline unsigned int get_virtual(void* _class, unsigned int index) { return static_cast<unsigned int>((*reinterpret_cast<int**>(_class))[index]); }
+
 	namespace create_move {
 		using fn = bool(__stdcall*)(float, c_usercmd*);
 		static bool __fastcall hook(void* ecx, void* edx, int input_sample_frametime, c_usercmd* cmd);

@@ -2,27 +2,30 @@
 #include <limits>
 #include <algorithm>
 
-extern float bits_to_float(std::uint32_t i);
+inline float bits_to_float(std::uint32_t i) {
+	union convertor_t { float f; unsigned long ul;
+	} tmp;
+
+	tmp.ul = i;
+	return tmp.f;
+}
+
 constexpr double M_PI = 3.14159265358979323846;
 constexpr float M_RADPI = 57.295779513082f;
 constexpr float M_PI_F = static_cast<float>(M_PI);
+
 constexpr float RAD2DEG(const float x) {
-	return x * (M_PI_F / 180.f);
+	return (float)(x) * (float)(180.f / M_PI_F);
 }
 constexpr float DEG2RAD(const float x) {
-	return x * (180.f / M_PI_F);
+	return (float)(x) * (float)(M_PI_F / 180.f);
 }
+
 constexpr std::uint32_t FLOAT32_NAN_BITS = 0x7FC00000;
-const     float         FLOAT32_NAN = bits_to_float(FLOAT32_NAN_BITS);
+const float FLOAT32_NAN = bits_to_float(FLOAT32_NAN_BITS);
 #define VEC_T_NAN FLOAT32_NAN
 #define ASSERT( _exp ) ( (void ) 0 )
 
-template <typename T>
-T clip_number(const T& n, const T& lower, const T& upper) {
-	if (n < lower) return lower;
-	if (n > upper) return upper;
-	return n;
-}
 
 class vec3_t {
 public:
@@ -84,18 +87,16 @@ public:
 		return ((float*)this)[i];
 	}
 
-	inline float Length2D() const
-	{
+	inline float Length2D() const {
 		return sqrt((x * x) + (y * y));
 	}
-	void crossproduct(vec3_t v1, vec3_t v2, vec3_t cross_p) const //ijk = xyz
-	{
+	void crossproduct(vec3_t v1, vec3_t v2, vec3_t cross_p) const {
 		cross_p.x = (v1.y * v2.z) - (v1.z * v2.y); //i
 		cross_p.y = -((v1.x * v2.z) - (v1.z * v2.x)); //j
 		cross_p.z = (v1.x * v2.y) - (v1.y * v2.x); //k
 	}
-	vec3_t Cross(const vec3_t & vOther) const
-	{
+
+	vec3_t cross(const vec3_t & vOther) const {
 		vec3_t res;
 		crossproduct(*this, vOther, res);
 		return res;
@@ -105,7 +106,6 @@ public:
 	void clamp();
 	vec3_t clamped();
 	vec3_t normalized();
-	float normalize_float();
 	float distance_to(const vec3_t & other);
 	void normalize();
 	float length();
@@ -115,13 +115,11 @@ public:
 	float dot(const float* other);
 };
 
-// has to be hear
 inline vec3_t operator*(float lhs, const vec3_t & rhs) {
 	return vec3_t(rhs.x * lhs, rhs.x * lhs, rhs.x * lhs);
 }
 
-struct matrix_t
-{
+struct matrix_t {
 	matrix_t() { }
 	matrix_t(
 		float m00, float m01, float m02, float m03,
@@ -137,8 +135,7 @@ struct matrix_t
 	// Creates a matrix where the X axis = forward
 	// the Y axis = left, and the Z axis = up
 	//-----------------------------------------------------------------------------
-	void init(const vec3_t& xAxis, const vec3_t& yAxis, const vec3_t& zAxis, const vec3_t& vecOrigin)
-	{
+	void init(const vec3_t& xAxis, const vec3_t& yAxis, const vec3_t& zAxis, const vec3_t& vecOrigin) {
 		mat_val[0][0] = xAxis.x; mat_val[0][1] = yAxis.x; mat_val[0][2] = zAxis.x; mat_val[0][3] = vecOrigin.x;
 		mat_val[1][0] = xAxis.y; mat_val[1][1] = yAxis.y; mat_val[1][2] = zAxis.y; mat_val[1][3] = vecOrigin.y;
 		mat_val[2][0] = xAxis.z; mat_val[2][1] = yAxis.z; mat_val[2][2] = zAxis.z; mat_val[2][3] = vecOrigin.z;
@@ -148,24 +145,19 @@ struct matrix_t
 	// Creates a matrix where the X axis = forward
 	// the Y axis = left, and the Z axis = up
 	//-----------------------------------------------------------------------------
-	matrix_t(const vec3_t& xAxis, const vec3_t& yAxis, const vec3_t& zAxis, const vec3_t& vecOrigin)
-	{
+	matrix_t(const vec3_t& xAxis, const vec3_t& yAxis, const vec3_t& zAxis, const vec3_t& vecOrigin) {
 		init(xAxis, yAxis, zAxis, vecOrigin);
 	}
 
-	inline void set_origin(vec3_t const& p)
-	{
+	inline void set_origin(vec3_t const& p) {
 		mat_val[0][3] = p.x;
 		mat_val[1][3] = p.y;
 		mat_val[2][3] = p.z;
 	}
 
-	inline void invalidate(void)
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
+	inline void invalidate(void) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 4; j++) {
 				mat_val[i][j] = VEC_T_NAN;
 			}
 		}

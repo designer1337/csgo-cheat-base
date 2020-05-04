@@ -7,8 +7,6 @@
 hooks::create_move::fn create_move_original = nullptr;
 hooks::paint_traverse::fn paint_traverse_original = nullptr;
 
-unsigned int get_virtual(void* class_, unsigned int index) { return (unsigned int)(*(int**)class_)[index]; }
-
 bool hooks::initialize() {
 	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
 	auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
@@ -62,7 +60,8 @@ bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_
 	misc::movement::bunny_hop(cmd);
 
 	prediction::start(cmd); {
-		//aimbot::run(cmd);
+
+
 
 	} prediction::end();
 
@@ -70,7 +69,9 @@ bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_
 
 	cmd->forwardmove = std::clamp(cmd->forwardmove, -450.0f, 450.0f);
 	cmd->sidemove = std::clamp(cmd->sidemove, -450.0f, 450.0f);
+	cmd->upmove = std::clamp(cmd->sidemove, -320.0f, 320.0f);
 
+	cmd->viewangles.normalize();
 	cmd->viewangles.x = std::clamp(cmd->viewangles.x, -89.0f, 89.0f);
 	cmd->viewangles.y = std::clamp(cmd->viewangles.y, -180.0f, 180.0f);
 	cmd->viewangles.z = 0.0f;

@@ -4,16 +4,6 @@
 #include <iostream>
 #include <iomanip>
 #include <random>
-float bits_to_float(std::uint32_t i) {
-	union convertor_t
-	{
-		float f;
-		unsigned long ul;
-	}tmp;
-
-	tmp.ul = i;
-	return tmp.f;
-}
 
 vec3_t::vec3_t(void) {
 	x = y = z = 0.0f;
@@ -42,18 +32,6 @@ vec3_t vec3_t::clamped() {
 	vec3_t clamped = *this;
 	clamped.clamp();
 	return clamped;
-}
-
-float vec3_t::normalize_float() {
-	vec3_t res = *this;
-	float l = res.length();
-	if (l != 0.0f) {
-		res /= l;
-	}
-	else {
-		res.x = res.y = res.z = 0.0f;
-	}
-	return l;
 }
 
 float vec3_t::distance_to(const vec3_t& other) {
