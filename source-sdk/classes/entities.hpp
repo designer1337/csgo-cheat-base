@@ -305,17 +305,17 @@ public:
 
 	float inaccuracy() {
 		using original_fn = float(__thiscall*)(void*);
-		return (*(original_fn * *)this)[478](this);
+		return (*(original_fn * *)this)[482](this);
 	}
 
 	float get_spread() {
 		using original_fn = float(__thiscall*)(void*);
-		return (*(original_fn * *)this)[448](this);
+		return (*(original_fn * *)this)[452](this);
 	}
 
 	void update_accuracy_penalty() {
 		using original_fn = void(__thiscall*)(void*);
-		(*(original_fn * *)this)[479](this);
+		(*(original_fn * *)this)[483](this);
 	}
 
 	weapon_info_t* get_weapon_data() {
