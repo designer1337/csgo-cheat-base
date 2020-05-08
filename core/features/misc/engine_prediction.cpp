@@ -4,11 +4,8 @@ void prediction::start(c_usercmd* cmd) {
 	if (!csgo::local_player)
 		return;
 
-	static bool initialized = false;
-	if (!initialized) {
+	if (!prediction_random_seed) 
 		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan("client_panorama.dll", sig_prediction_random_seed) + 2);
-		initialized = true;
-	}
 
 	*prediction_random_seed = cmd->randomseed & 0x7FFFFFFF;
 
