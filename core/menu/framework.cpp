@@ -62,6 +62,71 @@ void menu_framework::slider(std::int32_t x, std::int32_t y, std::int32_t positio
 	render::draw_text_string(x + 2, y - 1, font, (std::stringstream{ } << string << ": " <<  std::setprecision(3) << value).str(), false, color::white());
 }
 
+void menu_framework::keybind(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, std::string string, int* item) {
+
+	int w = 20, h = 20;
+	static bool gettingkey = false;
+	static int key = 0;
+	static bool goodname = false;
+
+	std::copy(keys, keys + 255, oldKeys);
+	for (int x = 0; x < 255; x++) keys[x] = (GetAsyncKeyState(x));
+
+	char buf[128];
+	const char* lastname = _("[   ]");
+
+	if (GetAsyncKeyState(VK_LBUTTON) && MouseInRegion(x - 20, y - 20, 50, 40))
+		if (!gettingkey) gettingkey = true;
+
+	if (gettingkey)
+	{
+		lastname = _("[ - ]");
+		for (int i = 0; i < 255; ++i)
+		{
+			if (GetKeyPress(i))
+			{
+				if (i == VK_ESCAPE)
+				{
+					key = -1;
+					*item = key;
+					gettingkey = false;
+					return;
+				}
+
+				else
+				{
+					key = i;
+					*item = key;
+					gettingkey = false;
+					return;
+				}
+			}
+		}
+	}
+	else
+	{
+		if (*item >= 0)
+		{
+			lastname = KeyStringsStick[*item];
+			if (lastname) goodname = true;
+			
+			else
+			{
+				if (GetKeyNameText(*item << 16, buf, 127))
+				{
+					lastname = buf;
+					goodname = true;
+				}
+			}
+		}
+
+		if (!goodname)
+			lastname = _("[   ]");
+	}
+
+	render::draw_text_string(x, y, font, lastname, false, color(233, 233, 233, 255) );
+}
+
 void menu_framework::menu_movement(std::int32_t& x, std::int32_t& y, std::int32_t w, std::int32_t h) {
 	GetCursorPos(&cursor);
 	
