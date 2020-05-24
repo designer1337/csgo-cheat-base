@@ -7,7 +7,8 @@ namespace menu_framework {
 	void check_box(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, const std::string string, bool& value);
 	void slider(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, const std::string string, float& value, float min_value, float max_value);
 	void menu_movement(std::int32_t& x, std::int32_t& y, std::int32_t w, std::int32_t h);
-
+	
+        void keybind(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, std::string string, int* item);
 	inline bool should_drag = false;
 	inline bool should_move = false; 
 };
