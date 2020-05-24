@@ -15,5 +15,10 @@ namespace hooks {
 		using fn = void(__thiscall*)(i_panel*, unsigned int, bool, bool);
 		static void __stdcall hook(unsigned int panel, bool force_repaint, bool allow_force);
 	}
+	
+	namespace CheckFileCRCsWithServer {
+		using fn = void(__thiscall*)(void*, void*);
+		void __fastcall hook(void*, void*);
+	}
 
 }
