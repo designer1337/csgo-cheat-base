@@ -6,6 +6,7 @@
 
 hooks::create_move::fn create_move_original = nullptr;
 hooks::paint_traverse::fn paint_traverse_original = nullptr;
+hooks::CheckFileCRCsWithServer::fn CheckFileCRCsWithServer_original = nullptr;
 
 bool hooks::initialize() {
 	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
@@ -26,6 +27,11 @@ bool hooks::initialize() {
 		return false;
 	}
 
+	if (MH_CreateHook(hkCheckFileCRCsWithServer_target, &CheckFileCRCsWithServer::hook, reinterpret_cast<void**>(&CheckFileCRCsWithServer_original)) != MH_OK) {
+		throw std::runtime_error(_("failed to initialize file_check."));
+		return false;
+	}
+	
 	if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK) {
 		throw std::runtime_error("failed to enable hooks.");
 		return false;
@@ -39,6 +45,10 @@ void hooks::release() {
 	MH_Uninitialize();
 
 	MH_DisableHook(MH_ALL_HOOKS);
+}
+
+void __fastcall hooks::CheckFileCRCsWithServer::hook(void* ecx, void* edx) {
+	return;
 }
 
 bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_frametime, c_usercmd* cmd) {
