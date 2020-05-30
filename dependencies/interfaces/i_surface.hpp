@@ -35,8 +35,8 @@ public:
 		return (*(original_fn * *)this)[41](this, x, y, w, h);
 	}
 	void set_texture_rgba(int id, const unsigned char* rgba, int wide, int tall) {
-		using original_fn = void(__thiscall*)(i_surface*, int, const unsigned char*, int, int, int, bool);
-		return (*(original_fn * *)this)[37](this, id, rgba, wide, tall, 0, false);
+		using original_fn = void(__thiscall*)(i_surface*, int, const unsigned char*, int, int);
+		return (*(original_fn * *)this)[37](this, id, rgba, wide, tall);
 	}
 	int create_new_texture_id(bool procedural = false) {
 		using original_fn = int(__thiscall*)(i_surface*, bool);
