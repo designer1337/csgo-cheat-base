@@ -5,7 +5,7 @@ void prediction::start(c_usercmd* cmd) {
 		return;
 
 	if (!prediction_random_seed) 
-		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan("client_panorama.dll", sig_prediction_random_seed) + 2);
+		prediction_random_seed = *reinterpret_cast<int**>(utilities::pattern_scan("client.dll", sig_prediction_random_seed) + 2);
 
 	*prediction_random_seed = cmd->randomseed & 0x7FFFFFFF;
 
