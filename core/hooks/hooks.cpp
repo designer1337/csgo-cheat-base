@@ -45,7 +45,7 @@ bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_
 	create_move_original(input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
-		return create_move_original(input_sample_frametime, cmd);
+		return false;
 
 	csgo::local_player = reinterpret_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
 
