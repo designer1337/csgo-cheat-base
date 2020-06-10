@@ -28,8 +28,8 @@ player_move_helper* interfaces::move_helper = nullptr;
 i_weapon_system* interfaces::weapon_system = nullptr;
 
 bool interfaces::initialize() {
-	client = get_interface<i_base_client_dll, interface_type::index>("client_panorama.dll", "VClient018");
-	entity_list = get_interface<i_client_entity_list, interface_type::index>("client_panorama.dll", "VClientEntityList003");
+	client = get_interface<i_base_client_dll, interface_type::index>("client.dll", "VClient018");
+	entity_list = get_interface<i_client_entity_list, interface_type::index>("client.dll", "VClientEntityList003");
 	engine = get_interface<iv_engine_client, interface_type::index>("engine.dll", "VEngineClient014");
 	panel = get_interface<i_panel, interface_type::index>("vgui2.dll", "VGUI_Panel009");
 	surface = get_interface<i_surface, interface_type::index>("vguimatsurface.dll", "VGUI_Surface031");
@@ -43,8 +43,8 @@ bool interfaces::initialize() {
 	debug_overlay = get_interface<iv_debug_overlay, interface_type::index>("engine.dll", "VDebugOverlay004");
 	inputsystem = get_interface<i_inputsytem, interface_type::index>("inputsystem.dll", "InputSystemVersion001");
 	trace_ray = get_interface<trace, interface_type::index>("engine.dll", "EngineTraceClient004");
-	game_movement = get_interface<player_game_movement, interface_type::index>("client_panorama.dll", "GameMovement001");
-	prediction = get_interface<player_prediction, interface_type::index>("client_panorama.dll", "VClientPrediction001");
+	game_movement = get_interface<player_game_movement, interface_type::index>("client.dll", "GameMovement001");
+	prediction = get_interface<player_prediction, interface_type::index>("client.dll", "VClientPrediction001");
 
 	/*custom interfaces*/
 	clientmode = **reinterpret_cast<i_client_mode * **>((*reinterpret_cast<uintptr_t * *>(client))[10] + 5);
@@ -52,10 +52,10 @@ bool interfaces::initialize() {
 
 	clientstate = **(i_client_state ***)(utilities::pattern_scan("engine.dll", sig_client_state) + 1);
 	directx = **(IDirect3DDevice9***)(utilities::pattern_scan("shaderapidx9.dll", sig_directx) + 1);
-	input = *(i_input**)(utilities::pattern_scan("client_panorama.dll", sig_input) + 1);
-	glow_manager = (glow_manager_t*)(*(uintptr_t*)(utilities::pattern_scan("client_panorama.dll", sig_glow_manager) + 3));
-	move_helper = **(player_move_helper***)(utilities::pattern_scan("client_panorama.dll", sig_player_move_helper) + 2);
-	weapon_system = *(i_weapon_system**)(utilities::pattern_scan("client_panorama.dll", sig_weapon_data) + 2);
+	input = *(i_input**)(utilities::pattern_scan("client.dll", sig_input) + 1);
+	glow_manager = (glow_manager_t*)(*(uintptr_t*)(utilities::pattern_scan("client.dll", sig_glow_manager) + 3));
+	move_helper = **(player_move_helper***)(utilities::pattern_scan("client.dll", sig_player_move_helper) + 2);
+	weapon_system = *(i_weapon_system**)(utilities::pattern_scan("client.dll", sig_weapon_data) + 2);
 
 	console::log("[setup] interfaces initialized!\n");
 
