@@ -385,7 +385,7 @@ public:
 	}
 
 	anim_state* get_anim_state() {
-		return *reinterpret_cast<anim_state * *>(this + 0x3900);
+		return *reinterpret_cast<anim_state * *>(this + 0x3914);
 	}
 
 	bool can_see_player_pos(player_t * player, const vec3_t & pos) {
