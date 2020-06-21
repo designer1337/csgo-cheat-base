@@ -2,7 +2,10 @@
 updated version of: https://github.com/alphauc/sdk with some improvements, eg. undetected hooking library
 
 # credits
-alpha: original base, cashsosa / harcuz: menu framework (https://www.unknowncheats.me/forum/members/2669363.html), wando: netvar manager
+1. alpha
+2. harcuz
+3. wando
+
 
 # media
 ![image](https://i.imgur.com/7rKZHUL.png)
