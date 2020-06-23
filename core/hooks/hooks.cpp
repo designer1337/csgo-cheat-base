@@ -8,28 +8,20 @@ hooks::create_move::fn create_move_original = nullptr;
 hooks::paint_traverse::fn paint_traverse_original = nullptr;
 
 bool hooks::initialize() {
-	auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
-	auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
+	const auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
+	const auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
 
-	if (MH_Initialize() != MH_OK) {
+	if (MH_Initialize() != MH_OK)
 		throw std::runtime_error("failed to initialize MH_Initialize.");
-		return false;
-	}
 
-	if (MH_CreateHook(create_move_target, &create_move::hook, reinterpret_cast<void**>(&create_move_original)) != MH_OK) {
+	if (MH_CreateHook(create_move_target, &create_move::hook, reinterpret_cast<void**>(&create_move_original)) != MH_OK)
 		throw std::runtime_error("failed to initialize create_move. (outdated index?)");
-		return false;
-	}
 
-	if (MH_CreateHook(paint_traverse_target, &paint_traverse::hook, reinterpret_cast<void**>(&paint_traverse_original)) != MH_OK) {
+	if (MH_CreateHook(paint_traverse_target, &paint_traverse::hook, reinterpret_cast<void**>(&paint_traverse_original)) != MH_OK)
 		throw std::runtime_error("failed to initialize paint_traverse. (outdated index?)");
-		return false;
-	}
 
-	if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK) {
+	if (MH_EnableHook(MH_ALL_HOOKS) != MH_OK)
 		throw std::runtime_error("failed to enable hooks.");
-		return false;
-	}
 
 	console::log("[setup] hooks initialized!\n");
 	return true;
