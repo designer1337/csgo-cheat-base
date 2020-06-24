@@ -1,4 +1,3 @@
-#pragma once
 #include "../../dependencies/utilities/csgo.hpp"
 #include "../features/features.hpp"
 #include "../features/misc/engine_prediction.hpp"
@@ -33,13 +32,13 @@ void hooks::release() {
 	MH_DisableHook(MH_ALL_HOOKS);
 }
 
-bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_frametime, c_usercmd* cmd) {
+bool __stdcall hooks::create_move::hook(float input_sample_frametime, c_usercmd* cmd) {
 	create_move_original(input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
 		return false;
 
-	csgo::local_player = reinterpret_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
+	csgo::local_player = static_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
 
 	uintptr_t* frame_pointer;
 	__asm mov frame_pointer, ebp;

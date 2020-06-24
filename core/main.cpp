@@ -16,7 +16,7 @@ unsigned long WINAPI initialize(void* instance) {
 	}
 
 	catch (const std::runtime_error & error) {
-		MessageBoxA(NULL, error.what(), "csgo-cheat error!", MB_OK | MB_ICONERROR);
+		MessageBoxA(nullptr, error.what(), "csgo-cheat error!", MB_OK | MB_ICONERROR);
 		FreeLibraryAndExitThread(static_cast<HMODULE>(instance), 0);
 	}
 
