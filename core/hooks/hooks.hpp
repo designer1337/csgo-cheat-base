@@ -8,7 +8,7 @@ namespace hooks {
 
 	namespace create_move {
 		using fn = bool(__stdcall*)(float, c_usercmd*);
-		bool __fastcall hook(void* ecx, void* edx, float input_sample_frametime, c_usercmd* cmd);
+		bool __stdcall hook(float input_sample_frametime, c_usercmd* cmd);
 	};
 
 	namespace paint_traverse {
