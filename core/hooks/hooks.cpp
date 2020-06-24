@@ -38,7 +38,7 @@ bool __stdcall hooks::create_move::hook(float input_sample_frametime, c_usercmd*
 	if (!cmd || !cmd->command_number)
 		return false;
 
-	csgo::local_player = reinterpret_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
+	csgo::local_player = static_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
 
 	uintptr_t* frame_pointer;
 	__asm mov frame_pointer, ebp;
