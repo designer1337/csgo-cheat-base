@@ -1,4 +1,3 @@
-#pragma once
 #include "../../dependencies/utilities/csgo.hpp"
 #include "../features/features.hpp"
 #include "../features/misc/engine_prediction.hpp"
@@ -33,7 +32,7 @@ void hooks::release() {
 	MH_DisableHook(MH_ALL_HOOKS);
 }
 
-bool __fastcall hooks::create_move::hook(void* ecx, void* edx, int input_sample_frametime, c_usercmd* cmd) {
+bool __fastcall hooks::create_move::hook(void* ecx, void* edx, float input_sample_frametime, c_usercmd* cmd) {
 	create_move_original(input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
