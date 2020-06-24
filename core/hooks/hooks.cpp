@@ -32,7 +32,7 @@ void hooks::release() {
 	MH_DisableHook(MH_ALL_HOOKS);
 }
 
-bool __fastcall hooks::create_move::hook(void* ecx, void* edx, float input_sample_frametime, c_usercmd* cmd) {
+bool __stdcall hooks::create_move::hook(float input_sample_frametime, c_usercmd* cmd) {
 	create_move_original(input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
