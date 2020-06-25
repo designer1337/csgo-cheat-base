@@ -70,7 +70,6 @@ public:
 	}
 
 	view_matrix_t& world_to_screen_matrix() {
-		view_matrix_t temp;
 		using original_fn = view_matrix_t & (__thiscall*)(iv_engine_client*);
 		return (*(original_fn * *)this)[37](this);
 	}
