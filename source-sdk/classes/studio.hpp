@@ -90,7 +90,6 @@ enum modtypes {
 enum hitboxes {
 	hitbox_head,
 	hitbox_neck,
-	hitbox_lower_neck,
 	hitbox_pelvis,
 	hitbox_stomach,
 	hitbox_lower_chest,
