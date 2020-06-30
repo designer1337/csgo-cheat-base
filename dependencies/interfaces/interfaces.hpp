@@ -30,16 +30,16 @@ namespace interfaces {
 	enum class interface_type { index, bruteforce };
 
 	template <typename ret, interface_type type>
-	ret* get_interface(std::string module_name, std::string interface_name) {
+	ret* get_interface(std::string_view module_name, std::string_view interface_name) {
 		using create_interface_fn = void* (*)(const char*, int*);
-		create_interface_fn fn = reinterpret_cast<create_interface_fn>(GetProcAddress(GetModuleHandle(module_name.c_str()), "CreateInterface"));
+		create_interface_fn fn = reinterpret_cast<create_interface_fn>(GetProcAddress(GetModuleHandle(module_name.data()), "CreateInterface"));
 
 		if (fn) {
 			void* result = nullptr;
 
 			switch (type) {
 			case interface_type::index:
-				result = fn(interface_name.c_str(), nullptr);
+				result = fn(interface_name.data(), nullptr);
 
 				break;
 			case interface_type::bruteforce:
@@ -48,7 +48,7 @@ namespace interfaces {
 				for (uint32_t i = 0; i <= 100; i++) {
 					memset((void*)buf, 0, sizeof buf);
 
-					result = fn(interface_name.c_str(), nullptr);
+					result = fn(interface_name.data(), nullptr);
 
 					if (result)
 						break;
@@ -58,9 +58,9 @@ namespace interfaces {
 			}
 		
 			if (!result)
-				throw std::runtime_error(interface_name.c_str());
+				throw std::runtime_error(interface_name.data());
 
-			return reinterpret_cast<ret*>(result);
+			return static_cast<ret*>(result);
 		}
 
 		return reinterpret_cast<ret*>(nullptr);
