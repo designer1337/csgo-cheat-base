@@ -48,7 +48,7 @@ bool interfaces::initialize() {
 
 	/*custom interfaces*/
 	clientmode = **reinterpret_cast<i_client_mode * **>((*reinterpret_cast<uintptr_t * *>(client))[10] + 5);
-	globals = **reinterpret_cast<c_global_vars_base * **>((*reinterpret_cast<uintptr_t * *>(client)[0] + 27));
+	globals = **reinterpret_cast<c_global_vars_base***>((*reinterpret_cast<uintptr_t**>(client))[11] + 10);
 
 	clientstate = **(i_client_state ***)(utilities::pattern_scan("engine.dll", sig_client_state) + 1);
 	directx = **(IDirect3DDevice9***)(utilities::pattern_scan("shaderapidx9.dll", sig_directx) + 1);
