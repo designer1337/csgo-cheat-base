@@ -33,216 +33,201 @@
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			  "RenderTarget Surfaces"
 #define TEXTURE_GROUP_MORPH_TARGETS					      "Morph Targets"
 
-//-----------------------------------------------------------------------------
-// forward declarations
-//-----------------------------------------------------------------------------
-class IMaterial;
-class IMesh;
-class IVertexBuffer;
-class IIndexBuffer;
-struct MaterialSystem_Config_t;
-class VMatrix;
-class matrix3x4_t;
-class ITexture;
-struct MaterialSystemHWID_t;
-class KeyValues;
-class IShader;
-class IVertexTexture;
-class IMorph;
-class IMatRenderContext;
-class ICallQueue;
-struct MorphWeight_t;
-class IFileList;
-struct VertexStreamSpec_t;
-struct ShaderStencilState_t;
-struct MeshInstanceData_t;
-class IClientMaterialSystem;
-class CPaintMaterial;
-class IPaintMapDataManager;
-class IPaintMapTextureManager;
-class GPUMemoryStats;
-struct AspectRatioInfo_t;
-struct CascadedShadowMappingState_t;
+class	i_ms_mat;
+class	i_ms_mesh;
+class	i_ms_vertex_buffer;
+class	i_ms_index_buffer;
+struct	i_ms_system_config_t;
+class	i_ms_v_matrix;
+class	matrix3x4_t;
+class	i_ms_texture;
+struct	i_ms_hwid_t;
+class	i_ms_key_values;
+class	i_ms_shader;
+class	i_ms_vtx_texture;
+class	i_ms_morph;
+class	i_mat_render_ctx;
+class	i_ms_call_queue;
+struct	i_ms_morph_weight_t;
+class	i_ms_file_list;
+struct	i_ms_vtx_stream_spec_t;
+struct	i_ms_shader_stencil_state_t;
+struct	i_ms_mesh_instance_data_t;
+class	i_ms_client_mat_sys;
+class	i_ms_paint_mat;
+class	i_ms_paint_map_data_mgr;
+class	i_ms_paint_map_texture_mgr;
+class	i_ms_gpu_mem_stats;
+struct	i_ms_aspect_ratio_info_t;
+struct	i_ms_cascaded_shadow_mapping_state_t;
 
-class IMaterialProxyFactory;
-class ITexture;
-class IMaterialSystemHardwareConfig;
-class CShadowMgr;
+class	i_ms_proxy_factory;
+class	i_ms_texture;
+class	i_ms_sys_hardware_cfg;
+class	i_ms_shadow_mgr;
 
-enum CompiledVtfFlags
-{
-	TEXTUREFLAGS_POINTSAMPLE = 0x00000001,
-	TEXTUREFLAGS_TRILINEAR = 0x00000002,
-	TEXTUREFLAGS_CLAMPS = 0x00000004,
-	TEXTUREFLAGS_CLAMPT = 0x00000008,
-	TEXTUREFLAGS_ANISOTROPIC = 0x00000010,
-	TEXTUREFLAGS_HINT_DXT5 = 0x00000020,
-	TEXTUREFLAGS_PWL_CORRECTED = 0x00000040,
-	TEXTUREFLAGS_NORMAL = 0x00000080,
-	TEXTUREFLAGS_NOMIP = 0x00000100,
-	TEXTUREFLAGS_NOLOD = 0x00000200,
-	TEXTUREFLAGS_ALL_MIPS = 0x00000400,
-	TEXTUREFLAGS_PROCEDURAL = 0x00000800,
-	TEXTUREFLAGS_ONEBITALPHA = 0x00001000,
-	TEXTUREFLAGS_EIGHTBITALPHA = 0x00002000,
-	TEXTUREFLAGS_ENVMAP = 0x00004000,
-	TEXTUREFLAGS_RENDERTARGET = 0x00008000,
-	TEXTUREFLAGS_DEPTHRENDERTARGET = 0x00010000,
-	TEXTUREFLAGS_NODEBUGOVERRIDE = 0x00020000,
-	TEXTUREFLAGS_SINGLECOPY = 0x00040000,
-	TEXTUREFLAGS_PRE_SRGB = 0x00080000,
-	TEXTUREFLAGS_UNUSED_00100000 = 0x00100000,
-	TEXTUREFLAGS_UNUSED_00200000 = 0x00200000,
-	TEXTUREFLAGS_UNUSED_00400000 = 0x00400000,
-	TEXTUREFLAGS_NODEPTHBUFFER = 0x00800000,
-	TEXTUREFLAGS_UNUSED_01000000 = 0x01000000,
-	TEXTUREFLAGS_CLAMPU = 0x02000000,
-	TEXTUREFLAGS_VERTEXTEXTURE = 0x04000000,
-	TEXTUREFLAGS_SSBUMP = 0x08000000,
-	TEXTUREFLAGS_UNUSED_10000000 = 0x10000000,
-	TEXTUREFLAGS_BORDER = 0x20000000,
-	TEXTUREFLAGS_UNUSED_40000000 = 0x40000000,
-	TEXTUREFLAGS_UNUSED_80000000 = 0x80000000
+enum i_ms_compiled_vtf_flags {
+	TEXTURE_FLAGS_POINT_SAMPLE = 1 << 0,
+	TEXTURE_FLAGS_TRILINEAR = 1 << 1,
+	TEXTURE_FLAGS_CLAMPS = 1 << 2,
+	TEXTURE_FLAGS_CLAMPT = 1 << 3,
+	TEXTURE_FLAGS_ANISOTROPIC = 1 << 4,
+	TEXTURE_FLAGS_HINT_DXT5 = 1 << 5,
+	TEXTURE_FLAGS_PWL_CORRECTED = 1 << 6,
+	TEXTURE_FLAGS_NORMAL = 1 << 7,
+	TEXTURE_FLAGS_NO_MIP = 1 << 8,
+	TEXTURE_FLAGS_NO_LOD = 1 << 9,
+	TEXTURE_FLAGS_ALL_MIPS = 1 << 10,
+	TEXTURE_FLAGS_PROCEDURAL = 1 << 11,
+	TEXTURE_FLAGS_ONE_BIT_ALPHA = 1 << 12,
+	TEXTURE_FLAGS_EIGHT_BIT_ALPHA = 1 << 13,
+	TEXTURE_FLAGS_ENVMAP = 1 << 14,
+	TEXTURE_FLAGS_RENDER_TARGET = 1 << 15,
+	TEXTURE_FLAGS_DEPTH_RENDER_TARGET = 1 << 16,
+	TEXTURE_FLAGS_NO_DEBUG_OVERRIDE = 1 << 17,
+	TEXTURE_FLAGS_SINGLE_COPY = 1 << 18,
+	TEXTURE_FLAGS_PRE_SRGB = 1 << 19,
+	TEXTURE_FLAGS_UNUSED_0x001 = 1 << 20,
+	TEXTURE_FLAGS_UNUSED_0x002 = 1 << 21,
+	TEXTURE_FLAGS_UNUSED_0x004 = 1 << 22,
+	TEXTURE_FLAGS_NO_DEPTH_BUFFER = 1 << 23,
+	TEXTURE_FLAGS_UNUSED_0x01 = 1 << 24,
+	TEXTURE_FLAGS_CLAMPU = 1 << 25,
+	TEXTURE_FLAGS_VERTEX_TEXTURE = 1 << 26,
+	TEXTURE_FLAGS_SSBUMP = 1 << 27,
+	TEXTURE_FLAGS_UNUSED_0x1 = 1 << 28,
+	TEXTURE_FLAGS_BORDER = 1 << 29,
+	TEXTURE_FLAGS_UNUSED_0x4 = 1 << 30,
+	TEXTURE_FLAGS_UNUSED_0x8 = 1 << 31
 };
 
-enum StandardLightmap_t
-{
+enum i_ms_standard_lightmap_t {
 	MATERIAL_SYSTEM_LIGHTMAP_PAGE_WHITE = -1,
 	MATERIAL_SYSTEM_LIGHTMAP_PAGE_WHITE_BUMP = -2,
 	MATERIAL_SYSTEM_LIGHTMAP_PAGE_USER_DEFINED = -3
 };
 
-struct MaterialSystem_SortInfo_t
-{
-	IMaterial* material;
-	int			lightmapPageID;
+struct i_ms_sort_info_t {
+	i_ms_mat	*material;
+	int		lightmap_page_id;
 };
 
-enum MaterialThreadMode_t
-{
+enum i_matsys_material_thread_mode_t {
 	MATERIAL_SINGLE_THREADED,
 	MATERIAL_QUEUED_SINGLE_THREADED,
 	MATERIAL_QUEUED_THREADED
 };
 
-enum MaterialContextType_t
-{
+enum i_ms_material_ctx_type_t {
 	MATERIAL_HARDWARE_CONTEXT,
 	MATERIAL_QUEUED_CONTEXT,
 	MATERIAL_NULL_CONTEXT
 };
 
-enum
-{
-	MATERIAL_ADAPTER_NAME_LENGTH = 512
+enum {
+	MATERIAL_ADAPTER_NAME_LENGTH = 1 << 9
 };
 
-struct MaterialTextureInfo_t
-{
-	int iExcludeInformation;
+struct i_ms_material_texture_info_t {
+	int exclude_information;
 };
 
-struct ApplicationPerformanceCountersInfo_t
-{
-	float msMain;
-	float msMST;
-	float msGPU;
-	float msFlip;
-	float msTotal;
+struct i_ms_app_perf_counters_info_t {
+	float ms_main;
+	float ms_mst;
+	float ms_gpu;
+	float ms_flip;
+	float ms_total;
 };
 
-struct ApplicationInstantCountersInfo_t
-{
-	uint32_t m_nCpuActivityMask;
-	uint32_t m_nDeferredWordsAllocated;
-};
-struct MaterialAdapterInfo_t
-{
-	char m_pDriverName[MATERIAL_ADAPTER_NAME_LENGTH];
-	unsigned int m_VendorID;
-	unsigned int m_DeviceID;
-	unsigned int m_SubSysID;
-	unsigned int m_Revision;
-	int m_nDXSupportLevel;			// This is the *preferred* dx support level
-	int m_nMinDXSupportLevel;
-	int m_nMaxDXSupportLevel;
-	unsigned int m_nDriverVersionHigh;
-	unsigned int m_nDriverVersionLow;
+struct i_ms_app_instant_counters_info_t {
+	uint32_t cpu_activity_mask;
+	uint32_t deferred_words_allocated;
 };
 
-struct MaterialVideoMode_t
-{
-	int m_Width;			// if width and height are 0 and you select
-	int m_Height;			// windowed mode, it'll use the window size
-	ImageFormat m_Format;	// use ImageFormats (ignored for windowed mode)
-	int m_RefreshRate;		// 0 == default (ignored for windowed mode)
+struct i_matsys_material_adapter_info_t {
+	char		driver_name[ MATERIAL_ADAPTER_NAME_LENGTH ];
+	unsigned int	vendor_id;
+	unsigned int	device_id;
+	unsigned int	sub_sys_id;
+	unsigned int	revision;
+	int		dx_support_level;
+	int		min_dx_support_level;
+	int		max_dx_support_level;
+	unsigned int	driver_version_high;
+	unsigned int	driver_version_low;
 };
-enum HDRType_t
-{
+
+struct i_ms_mat_video_mode_t {
+	int		width;
+	int		height;
+	imageformat 	format;
+	int		refresh_rate;
+};
+
+enum i_ms_hdr_type_t {
 	HDR_TYPE_NONE,
 	HDR_TYPE_INTEGER,
 	HDR_TYPE_FLOAT,
 };
 
-enum RestoreChangeFlags_t
-{
-	MATERIAL_RESTORE_VERTEX_FORMAT_CHANGED = 0x1,
-	MATERIAL_RESTORE_RELEASE_MANAGED_RESOURCES = 0x2,
+enum i_ms_res_change_flags_t {
+	MATERIAL_RESTORE_VERTEX_FORMAT_CHANGED = 1,
+	MATERIAL_RESTORE_RELEASE_MANAGED_RESOURCES
 };
 
-enum RenderTargetSizeMode_t
-{
-	RT_SIZE_NO_CHANGE = 0,
-	RT_SIZE_DEFAULT = 1,
-	RT_SIZE_PICMIP = 2,
-	RT_SIZE_HDR = 3,
-	RT_SIZE_FULL_FRAME_BUFFER = 4,
-	RT_SIZE_OFFSCREEN = 5,
-	RT_SIZE_FULL_FRAME_BUFFER_ROUNDED_UP = 6
+enum i_ms_render_target_size_mode_t {
+	RT_SIZE_NO_CHANGE,
+	RT_SIZE_DEFAULT,
+	RT_SIZE_PICMIP,
+	RT_SIZE_HDR,
+	RT_SIZE_FULL_FRAME_BUFFER,
+	RT_SIZE_OFFSCREEN,
+	RT_SIZE_FULL_FRAME_BUFFER_ROUNDED_UP
 };
 
-enum MaterialRenderTargetDepth_t
-{
-	MATERIAL_RT_DEPTH_SHARED = 0x0,
-	MATERIAL_RT_DEPTH_SEPARATE = 0x1,
-	MATERIAL_RT_DEPTH_NONE = 0x2,
-	MATERIAL_RT_DEPTH_ONLY = 0x3,
+enum i_ms_mat_render_target_depth_t {
+	MATERIAL_RT_DEPTH_SHARED,
+	MATERIAL_RT_DEPTH_SEPARATE,
+	MATERIAL_RT_DEPTH_NONE,
+	MATERIAL_RT_DEPTH_ONLY
 };
 
-typedef void(*MaterialBufferReleaseFunc_t)(int nChangeFlags);	// see RestoreChangeFlags_t
-typedef void(*MaterialBufferRestoreFunc_t)(int nChangeFlags);	// see RestoreChangeFlags_t
-typedef void(*ModeChangeCallbackFunc_t)(void);
-typedef void(*EndFrameCleanupFunc_t)(void);
-typedef bool(*EndFramePriorToNextContextFunc_t)(void);
-typedef void(*OnLevelShutdownFunc_t)(void* pUserData);
+typedef void( *mat_buffer_release_func_t )( int flags );
+typedef void( *mat_buffer_restore_func_t )( int flags );
+typedef void( *mode_change_callback_function_t )( void );
+typedef void( *end_frame_cleanup_function_t )( void );
+typedef bool( *end_frame_prior_to_next_ctx_function_t )( void );
+typedef void( *on_level_shutdown_function_t )( void *data );
 
-typedef unsigned short MaterialHandle_t;
-DECLARE_POINTER_HANDLE(MaterialLock_t);
+typedef unsigned short mat_handle_t;
+DECLARE_POINTER_HANDLE( mat_lock_t );
 
 class i_material_system {
+
 public:
-	i_material* find_material(char const* material_name, const char* group_name, bool complain = true, const char* complain_prefix = 0) {
-		using original_fn = i_material * (__thiscall*)(i_material_system*, char const*, const char*, bool, const char*);
-		return (*(original_fn * *)this)[84](this, material_name, group_name, complain, complain_prefix);
+	i_material *find_material( char const *material_name, const char *group_name, bool complain = true, const char *complain_prefix = 0 ) {
+		using fn = i_material * ( __thiscall * )( i_material_system *, char const *, const char *, bool, const char * );
+		return ( *( fn ** ) this )[ 84 ]( this, material_name, group_name, complain, complain_prefix );
 	}
 	material_handle_t first_material() {
-		using original_fn = material_handle_t(__thiscall*)(i_material_system*);
-		return (*(original_fn * *)this)[86](this);
+		using fn = material_handle_t( __thiscall * )( i_material_system * );
+		return ( *( fn ** ) this )[ 86 ]( this );
 	}
-	material_handle_t next_material(material_handle_t handle) {
-		using original_fn = material_handle_t(__thiscall*)(i_material_system*, material_handle_t);
-		return (*(original_fn * *)this)[87](this, handle);
+	material_handle_t next_material( material_handle_t handle ) {
+		using fn = material_handle_t( __thiscall * )( i_material_system *, material_handle_t );
+		return ( *( fn ** ) this )[ 87 ]( this, handle );
 	}
 	material_handle_t invalid_material_handle() {
-		using original_fn = material_handle_t(__thiscall*)(i_material_system*);
-		return (*(original_fn * *)this)[88](this);
+		using fn = material_handle_t( __thiscall * )( i_material_system * );
+		return ( *( fn ** ) this )[ 88 ]( this );
 	}
-	i_material* get_material(material_handle_t handle) {
-		using original_fn = i_material * (__thiscall*)(i_material_system*, material_handle_t);
-		return (*(original_fn * *)this)[89](this, handle);
+	i_material *get_material( material_handle_t handle ) {
+		using fn = i_material * ( __thiscall * )( i_material_system *, material_handle_t );
+		return ( *( fn ** ) this )[ 89 ]( this, handle );
 	}
 	int	get_materials_count() {
-		using original_fn = int(__thiscall*)(i_material_system*);
-		return (*(original_fn * *)this)[90](this);
+		using fn = int( __thiscall * )( i_material_system * );
+		return ( *( fn ** ) this )[ 90 ]( this );
 	}
 };
