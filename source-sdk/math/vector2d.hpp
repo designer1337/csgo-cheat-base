@@ -8,8 +8,8 @@ public:
 	vec2_t() {
 		x = 0; y = 0;
 	};
-	vec2_t(float X, float Y) {
-		x = X; y = Y;
+	vec2_t(float _x, float _y) {
+		x = _x; y = _y;
 	};
 	vec2_t(vec3_t vec) {
 		x = vec.x; y = vec.y;
