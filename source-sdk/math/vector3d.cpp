@@ -9,17 +9,16 @@ vec3_t::vec3_t(void) {
 	x = y = z = 0.0f;
 }
 
-vec3_t::vec3_t(float fx, float fy, float fz) {
-	x = fx;
-	y = fy;
-	z = fz;
+vec3_t::vec3_t(float _x, float _y, float _z) {
+	x = _x;
+	y = _y;
+	z = _z;
 }
 
-vec3_t::~vec3_t(void) {
-};
+vec3_t::~vec3_t(void) {};
 
-void vec3_t::init(float ix, float iy, float iz) {
-	x = ix; y = iy; z = iz;
+void vec3_t::init(float _x, float _y, float _z) {
+	x = _x; y = _y; z = _z;
 }
 
 void vec3_t::clamp(void) {
