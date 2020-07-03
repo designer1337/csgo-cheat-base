@@ -27,7 +27,6 @@ const float FLOAT32_NAN = bits_to_float(FLOAT32_NAN_BITS);
 #define VEC_T_NAN FLOAT32_NAN
 #define ASSERT( _exp ) ( (void ) 0 )
 
-
 class vec3_t {
 public:
 	vec3_t();
