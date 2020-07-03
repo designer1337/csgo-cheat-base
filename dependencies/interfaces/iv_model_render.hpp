@@ -2,7 +2,6 @@
 #include "../../source-sdk/structs/materials.hpp"
 
 struct draw_model_state_t {
-
 public:
 	studio_hdr_t		*studio_hdr;
 	studiohwdata_t		*studio_hw_data;
