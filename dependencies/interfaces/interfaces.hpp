@@ -58,12 +58,12 @@ namespace interfaces {
 			}
 		
 			if (!result)
-				throw std::runtime_error(interface_name.c_str());
+				throw std::runtime_error( interface_name + " wasn't found in " + module_name );
 
-			return reinterpret_cast<ret*>(result);
+			return static_cast<ret*>(result);
 		}
 
-		return reinterpret_cast<ret*>(nullptr);
+		throw std::runtime_error( module_name + " wasn't found" );
 	}
 
 	extern i_base_client_dll* client;
