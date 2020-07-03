@@ -2,7 +2,6 @@
 #include "../math/vector3d.hpp"
 
 struct model_t {
-
 	void	*handle;
 	char	name[260];
 	int	load_flags;
@@ -15,7 +14,6 @@ struct model_t {
 };
 
 struct model_render_info_t {
-
 	vec3_t		origin;
 	vec3_t		angles;
 	char		u0[0x4];
