@@ -69,7 +69,7 @@ class utl_vector {
 	typedef a c_allocator;
 	typedef t *iterator;
 	typedef const t *const_iterator;
-	public:
+public:
 	t &operator[]( int i );
 
 	const t &operator[]( int i ) const;
