@@ -54,46 +54,31 @@ public:
 };
 
 class i_client_state {
-private:
-	char		u0[ 156 ];
 public:
+	char		u0[ 156 ];
 	i_net_channel	*net_channel;
 	uint32_t	challenge_nr;
-private:
 	char		u1[ 100 ];
-public:
 	uint32_t	signon_state_count;
-private:
 	char		u2[ 8 ];
-public:
 	float		next_cmd_time;
 	uint32_t	server_count;
 	uint32_t	current_sequence;
-private:
 	char		u3[ 84 ];
-public:
 	uint32_t	delta_tick;
 	bool		paused;
-private:
 	char		u4[ 3 ];
-public:
 	uint32_t	view_entity;
 	uint32_t	player_slot;
 	char		level_name[ 260 ];
 	char		level_name_short[ 80 ];
 	char		group_name[ 80 ];
-private:
 	char		u5[ 92 ];
-public:
 	uint32_t	max_clients;
-private:
 	char		u6[ 18824 ];
-public:
 	float		last_server_tick_time;
 	bool		in_simulation;
-private:
 	char		u7[ 3 ];
-public:
 	uint32_t	old_tick_count;
 	float		tick_remainder;
 	float		frame_time;
@@ -102,9 +87,7 @@ public:
 	int		last_command_ack;
 	int		command_ack;
 	int		sound_sequence;
-private:
 	char		u8[ 80 ];
-public:
 	vec3_t		view_angles;
 
 	void full_update() {
