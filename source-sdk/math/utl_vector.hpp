@@ -1,180 +1,152 @@
 #pragma once
 #include <assert.h>
-template <class T, class I = int> class utl_memory
-{
-public:
-	inline bool IsIdxValid(I i) const
-	{
+
+template <class t, class a = int> class utl_memory {
+
+	public:
+
+	inline bool is_idx_valid( a i ) const {
 		long x = i;
-		return (x >= 0) && (x < m_nAllocationCount);
+		return ( x >= 0 ) && ( x < allocation_count );
 	}
-	T& operator[](I i);
-	const T& operator[](I i) const;
-	T* Base()
-	{
-		return m_pMemory;
+
+	t &operator[]( a i );
+	const t &operator[]( a i ) const;
+	t *base() {
+		return memory;
 	}
-	inline int NumAllocated() const
-	{
-		return m_nAllocationCount;
+
+	inline int num_allocated() const {
+		return allocation_count;
 	}
-	void Grow(int num)
-	{
-		assert(num > 0);
 
-		auto oldAllocationCount = m_nAllocationCount;
-		// Make sure we have at least numallocated + num allocations.
-		// Use the grow rules specified for this memory (in m_nGrowSize)
-		int nAllocationRequested = m_nAllocationCount + num;
+	void grow( int num ) {
 
-		int nNewAllocationCount = UtlMemory_CalcNewAllocationCount(m_nAllocationCount, m_nGrowSize, nAllocationRequested, sizeof(T));
+		assert( num > 0 );
 
-		// if m_nAllocationRequested wraps index type I, recalculate
-		if ((int)(I)nNewAllocationCount < nAllocationRequested)
-		{
-			if ((int)(I)nNewAllocationCount == 0 && (int)(I)(nNewAllocationCount - 1) >= nAllocationRequested)
-			{
-				--nNewAllocationCount; // deal w/ the common case of m_nAllocationCount == MAX_USHORT + 1
-			}
-			else
-			{
-				if ((int)(I)nAllocationRequested != nAllocationRequested)
-				{
-					// we've been asked to grow memory to a size s.t. the index type can't address the requested amount of memory
-					assert(0);
+		auto old_allocation_count = allocation_count;
+		int allocation_requested = allocation_count + num;
+		int new_allocation_count = utl_memory_calc_new_allocation_count( allocation_count, grow_size, allocation_requested, sizeof( t ) );
+
+		if ( ( int ) ( a ) new_allocation_count < allocation_requested ) {
+
+			if ( ( int ) ( a ) new_allocation_count == 0 && ( int ) ( a ) ( new_allocation_count - 1 ) >= allocation_requested ) {
+
+				--new_allocation_count;
+			} else {
+
+				if ( ( int ) ( a ) allocation_requested != allocation_requested ) {
+					assert( 0 );
 					return;
 				}
-				while ((int)(I)nNewAllocationCount < nAllocationRequested)
-				{
-					nNewAllocationCount = (nNewAllocationCount + nAllocationRequested) / 2;
+				while ( ( int ) ( a ) new_allocation_count < allocation_requested ) {
+					new_allocationCount = ( new_allocation_count + allocation_requested ) / 2;
 				}
 			}
 		}
+		allocation_count = new_allocation_count;
 
-		m_nAllocationCount = nNewAllocationCount;
+		if ( memory ) {
 
-		if (m_pMemory)
-		{
-			auto ptr = new unsigned char[m_nAllocationCount * sizeof(T)];
-
-			memcpy(ptr, m_pMemory, oldAllocationCount * sizeof(T));
-			m_pMemory = (T*)ptr;
-		}
-		else
-		{
-			m_pMemory = (T*)new unsigned char[m_nAllocationCount * sizeof(T)];
-		}
+			auto ptr = new unsigned char[ allocation_count * sizeof( t ) ];
+			memcpy( ptr, memory, old_allocation_count * sizeof( t ) );
+			memory = ( t * ) ptr;
+		} else
+			memory = ( t * )new unsigned char[ allocation_count * sizeof( t ) ];
 	}
-protected:
-	T* m_pMemory;
-	int m_nAllocationCount;
-	int m_nGrowSize;
+	protected:
+	t *memory;
+	int allocation_count;
+	int grow_size;
 };
 
-template< class T, class I >
-inline T& utl_memory<T, I>::operator[](I i)
-{
-	assert(IsIdxValid(i));
-	return m_pMemory[i];
+template< class t, class a >
+inline t &utl_memory<t, a>::operator[]( a i ) {
+	assert( is_idx_valid( i ) );
+	return memory[ i ];
 }
 
-template< class T, class I >
-inline const T& utl_memory<T, I>::operator[](I i) const
-{
-	assert(IsIdxValid(i));
-	return m_pMemory[i];
+template< class t, class a >
+inline const t &utl_memory<t, a>::operator[]( a i ) const {
+	assert( is_idx_valid( i ) );
+	return memory[ i ];
 }
 
-template< class T, class A = utl_memory<T> >
-class utl_vector
-{
-	typedef A CAllocator;
+template< class t, class a = utl_memory<t> >
+class utl_vector {
 
-	typedef T* iterator;
-	typedef const T* const_iterator;
-public:
-	T& operator[](int i);
-	const T& operator[](int i) const;
+	typedef a c_allocator;
+	typedef t *iterator;
+	typedef const t *const_iterator;
+	public:
 
-	T& Element(int i)
-	{
-		return m_Memory[i];
+	t &operator[]( int i );
+
+	const t &operator[]( int i ) const;
+
+	t &element( int i ) {
+		return memory[ i ];
 	}
 
-	T* Base()
-	{
-		return m_Memory.Base();
+	t *base() {
+		return memory.base();
 	}
 
-	int count() const
-	{
-		return m_Size;
+	int count() const {
+		return size;
 	}
 
-	void remove_all()
-	{
-		for (int i = m_Size; --i >= 0; )
-			Destruct(&Element(i));
-
-		m_Size = 0;
+	void remove_all() {
+		for ( int i = size; --i >= 0; )
+			destruct( &element( i ) );
+		size = 0;
 	}
 
-	inline bool IsValidIndex(int i) const
-	{
-		return (i >= 0) && (i < m_Size);
+	inline bool is_valid_index( int i ) const {
+		return ( i >= 0 ) && ( i < size );
 	}
 
-	void GrowVector(int num = 1)
-	{
-		if (m_Size + num > m_Memory.NumAllocated())
-		{
-			m_Memory.Grow(m_Size + num - m_Memory.NumAllocated());
-		}
-
-		m_Size += num;
+	void grow_vector( int num = 1 ) {
+		if ( size + num > memory.num_allocated() )
+			memory.grow( size + num - memory.num_allocated() );
+		size += num;
 	}
 
-	int InsertBefore(int elem)
-	{
-		// Can insert at the end
-		assert((elem == count()) || IsValidIndex(elem));
+	int insert_before( int elem ) {
+		assert( ( elem == count() ) || is_valid_index( elem ) );
 
-		GrowVector();
-		Construct(&Element(elem));
+		grow_vector();
+		construct( &element( elem ) );
 		return elem;
 	}
 
-	inline int AddToHead()
-	{
-		return InsertBefore(0);
+	inline int add_to_head() {
+		return insert_before( 0 );
 	}
 
-	inline int AddToTail()
-	{
-		return InsertBefore(m_Size);
+	inline int add_to_tail() {
+		return insert_before( size );
 	}
 
-	iterator begin() { return Base(); }
-	const_iterator begin() const { return Base(); }
-	iterator end() { return Base() + count(); }
-	const_iterator end() const { return Base() + count(); }
+	iterator begin() { return base(); }
+	const_iterator begin() const { return base(); }
+	iterator end() { return base() + count(); }
+	const_iterator end() const { return base() + count(); }
 
-protected:
-	CAllocator m_Memory;
-	int m_Size;
-	T* m_pElements;
+	protected:
+	c_allocator memory;
+	int size;
+	t *elements;
 };
 
-template< typename T, class A >
-inline T& utl_vector<T, A>::operator[](int i)
-{
-	assert(i < m_Size);
-	return m_Memory[i];
+template< typename t, class a >
+inline t &utl_vector<t, a>::operator[]( int i ) {
+	assert( i < size );
+	return memory[ i ];
 }
 
-template< typename T, class A >
-inline const T& utl_vector<T, A>::operator[](int i) const
-{
-	assert(i < m_Size);
-	return m_Memory[i];
+template< typename t, class a >
+inline const t &utl_vector<t, a>::operator[]( int i ) const {
+	assert( i < size );
+	return memory[ i ];
 }
