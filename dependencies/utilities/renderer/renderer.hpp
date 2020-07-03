@@ -18,6 +18,7 @@ enum font_flags {
 };
 
 namespace render {
+
 	void initialize();
 
 	void draw_line(std::int32_t from_x, std::int32_t from_y, std::int32_t to_x, std::int32_t to_y, color color);
