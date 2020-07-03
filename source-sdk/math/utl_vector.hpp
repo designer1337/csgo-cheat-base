@@ -4,7 +4,6 @@
 template <class t, class a = int> class utl_memory {
 
 	public:
-
 	inline bool is_idx_valid( a i ) const {
 		long x = i;
 		return ( x >= 0 ) && ( x < allocation_count );
@@ -21,7 +20,6 @@ template <class t, class a = int> class utl_memory {
 	}
 
 	void grow( int num ) {
-
 		assert( num > 0 );
 
 		auto old_allocation_count = allocation_count;
@@ -74,12 +72,10 @@ inline const t &utl_memory<t, a>::operator[]( a i ) const {
 
 template< class t, class a = utl_memory<t> >
 class utl_vector {
-
 	typedef a c_allocator;
 	typedef t *iterator;
 	typedef const t *const_iterator;
 	public:
-
 	t &operator[]( int i );
 
 	const t &operator[]( int i ) const;
