@@ -19,7 +19,7 @@ public:
 	view_matrix_t(const vec3_t& forward, const vec3_t& left, const vec3_t& up);
 
 	// Construct from a 3x4 matrix
-	view_matrix_t(const matrix_t& matrix3x4);
+	view_matrix_t(const matrix_t& m3x4);
 
 	// Set the values in the matrix.
 	void		init(
@@ -142,7 +142,7 @@ public:
 	view_matrix_t		inverse_tr() const;
 
 	// Get the scale of the matrix's basis vec3_ts.
-	vec3_t		get_scale() const;
+	vec3_t			get_scale() const;
 
 	// (Fast) multiply by a scaling matrix setup from vScale.
 	view_matrix_t		scale(const vec3_t & scale);
