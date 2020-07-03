@@ -11,7 +11,6 @@ class con_command_base;
 typedef int cvar_dll_indentifier_t;
 
 class i_console_display_func {
-
 public:
 	virtual void color_print( const uint8_t *clr, const char *msg ) = 0;
 	virtual void print( const char *msg ) = 0;
@@ -19,7 +18,6 @@ public:
 };
 
 class i_console : public i_app_system {
-
 public:
 	virtual cvar_dll_indentifier_t	allocate_dll_indentifier() = 0;
 	virtual void			register_con_command( con_command_base *base ) = 0;
