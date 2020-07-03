@@ -13,7 +13,7 @@ void menu_framework::group_box(std::int32_t x, std::int32_t y, std::int32_t w, s
 
 	//groupbox label
 	if (show_label)
-		render::draw_text_string(x + 2, y - 12, font, string, false, color::white());
+		render::text(x + 2, y - 12, font, string, false, color::white());
 }
 
 void menu_framework::tab(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, unsigned long font, const std::string string, std::int32_t& tab, std::int32_t count, bool show_outline) {
@@ -27,7 +27,7 @@ void menu_framework::tab(std::int32_t x, std::int32_t y, std::int32_t w, std::in
 		render::draw_rect(x, y, w, h, tab == count ? color(52, 134, 235, 255) : color(25, 25, 25, 255));
 
 	//tab label
-	render::draw_text_string(x - render::get_text_size(font, string).x / 2 + 50, y + h / 2 - 8, font, string, false, show_outline ? color::white() : tab == count ? color(52, 134, 235, 255) : color::white());
+	render::text(x - render::get_text_size(font, string).x / 2 + 50, y + h / 2 - 8, font, string, false, show_outline ? color::white() : tab == count ? color(52, 134, 235, 255) : color::white());
 }
 
 void menu_framework::check_box(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, const std::string string, bool& value) {
@@ -42,7 +42,7 @@ void menu_framework::check_box(std::int32_t x, std::int32_t y, std::int32_t posi
 	render::draw_filled_rect(position, y, w, h, value ? color(52, 134, 235, 255) : color(36, 36, 36, 255));
 
 	//checkbox label
-	render::draw_text_string(x + 2, y - 1, font, string, false, color::white());
+	render::text(x + 2, y - 1, font, string, false, color::white());
 }
 
 void menu_framework::slider(std::int32_t x, std::int32_t y, std::int32_t position, unsigned long font, const std::string string, float& value, float min_value, float max_value) {
@@ -59,7 +59,7 @@ void menu_framework::slider(std::int32_t x, std::int32_t y, std::int32_t positio
 	render::draw_filled_rect(ix, yi, value * (float(position) / float(max_value)), 6, color(52, 134, 235, 255));
 
 	//slider label
-	render::draw_text_string(x + 2, y - 1, font, (std::stringstream{ } << string << ": " <<  std::setprecision(3) << value).str(), false, color::white());
+	render::text(x + 2, y - 1, font, (std::stringstream{ } << string << ": " <<  std::setprecision(3) << value).str(), false, color::white());
 }
 
 void menu_framework::menu_movement(std::int32_t& x, std::int32_t& y, std::int32_t w, std::int32_t h) {
@@ -85,4 +85,3 @@ void menu_framework::menu_movement(std::int32_t& x, std::int32_t& y, std::int32_
 		should_move = false;
 	}
 }
-
