@@ -1,8 +1,9 @@
 #pragma once
 
 class i_net_channel {
+private:
+	uint8_t u0[0x17];
 public:
-	uint8_t pad_0x0000[0x17];
 	bool should_delete;
 	int out_sequence_nr;
 	int in_sequence_nr;
