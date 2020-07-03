@@ -27,17 +27,13 @@ public:
 	float	constraint_radius;
 	float	constraint_width;
 	float	constraint_speed_factor;
-private:
 	float	u0[5];
-public:
 	vec3_t	abs_origin;
-
 	virtual	void u1() = 0;
 	virtual void set_host(player_t *host) = 0;
 };
 
 class player_move_data {
-
 public:
 	bool    first_run_of_instructions : 1;
 	bool    game_code_moved_player : 1;
@@ -62,9 +58,7 @@ public:
 	float   constraint_radius;
 	float   constraint_width;
 	float   constraint_speed_factor;
-private:
 	float   u0[ 5 ];
-public:
 	vec3_t	abs_origin;
 };
 
@@ -92,7 +86,6 @@ public:
 };
 
 class player_prediction {
-
 public:
 	bool in_prediction() {
 		typedef bool( __thiscall *o_in_prediction )( void * );
