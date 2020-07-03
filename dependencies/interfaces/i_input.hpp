@@ -10,7 +10,7 @@ public:
 private:
 	char u2[ 2 ];
 public:
-	vec3 camera_offset;
+	vec3_t camera_offset;
 
 	c_usercmd *get_user_cmd( int slot, int sequence_num ) {
 		using fn = c_usercmd * ( __thiscall * )( void *, int, int );
