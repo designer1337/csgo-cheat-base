@@ -1,7 +1,6 @@
 #include "../features.hpp"
 
 void misc::movement::bunny_hop(c_usercmd* cmd) {
-
 	if (!variables::test_bool)
 		return;
 
