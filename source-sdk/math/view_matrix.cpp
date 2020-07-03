@@ -1,7 +1,6 @@
 #include "view_matrix.hpp"
 
-view_matrix_t::view_matrix_t() {
-}
+view_matrix_t::view_matrix_t() {}
 
 view_matrix_t::view_matrix_t(
 	vec_t m00, vec_t m01, vec_t m02, vec_t m03,
