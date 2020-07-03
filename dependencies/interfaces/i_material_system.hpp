@@ -161,7 +161,7 @@ struct i_matsys_material_adapter_info_t {
 struct i_ms_mat_video_mode_t {
 	int		width;
 	int		height;
-	imageformat 	format;
+	image_format 	format;
 	int		refresh_rate;
 };
 
