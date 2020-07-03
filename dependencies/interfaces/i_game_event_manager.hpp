@@ -9,7 +9,6 @@ class bf_write;
 class bf_read;
 
 class i_game_event {
-
 public:
 	virtual					~i_game_event() = 0;
 	virtual const char		*get_name() const = 0;
@@ -34,7 +33,6 @@ public:
 };
 
 class i_game_event_listener2 {
-
 public:
 	virtual ~i_game_event_listener2( void ) {}
 
@@ -44,7 +42,6 @@ public:
 };
 
 class i_game_event_manager2 {
-
 public:
 	virtual             ~i_game_event_manager2() = 0;
 	virtual int         load_events_from_file( const char *filename ) = 0;
