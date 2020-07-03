@@ -4,7 +4,6 @@
 
 class i_net_channel_info {
 public:
-
 	enum {
 		GENERIC = 0,	// must be first and is default group
 		LOCALPLAYER,	// bytes for local player entity update
