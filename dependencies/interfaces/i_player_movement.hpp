@@ -3,14 +3,13 @@
 #include "../../source-sdk/classes/c_usercmd.hpp"
 
 class player_move_helper {
-
 public:
 	bool	first_run_of_iunctions : 1;
 	bool	game_code_moved_player : 1;
 	int	player_handle;
 	int	impulse_command;
-	vec3	view_angles;
-	vec3	abs_view_angles;
+	vec3_t	view_angles;
+	vec3_t	abs_view_angles;
 	int	buttons;
 	int	old_buttons;
 	float	forward_move;
@@ -18,22 +17,20 @@ public:
 	float	up_move;
 	float	max_speed;
 	float	client_max_speed;
-	vec3	velocity;
-	vec3	angles;
-	vec3	old_angles;
+	vec3_t	velocity;
+	vec3_t	angles;
+	vec3_t	old_angles;
 	float	out_step_height;
-	vec3	wish_velocity;
-	vec3	jump_velocity;
-	vec3	constraint_center;
+	vec3_t	wish_velocity;
+	vec3_t	jump_velocity;
+	vec3_t	constraint_center;
 	float	constraint_radius;
 	float	constraint_width;
 	float	constraint_speed_factor;
-
 private:
 	float	u0[5];
-
 public:
-	vec3	abs_origin;
+	vec3_t	abs_origin;
 
 	virtual	void u1() = 0;
 	virtual void set_host(player_t *host) = 0;
@@ -46,8 +43,8 @@ public:
 	bool    game_code_moved_player : 1;
 	int     player_handle;
 	int     impulse_command;
-	vec3	view_angles;
-	vec3	abs_view_angles;
+	vec3_t	view_angles;
+	vec3_t	abs_view_angles;
 	int     buttons;
 	int     old_buttons;
 	float   fw_move;
@@ -55,22 +52,20 @@ public:
 	float   up_move;
 	float   max_speed;
 	float   client_max_speed;
-	vec3	velocity;
-	vec3	angles;
-	vec3	old_angles;
+	vec3_t	velocity;
+	vec3_t	angles;
+	vec3_t	old_angles;
 	float   step_height;
-	vec3	wish_velocity;
-	vec3	jump_velocity;
-	vec3	constraint_center;
+	vec3_t	wish_velocity;
+	vec3_t	jump_velocity;
+	vec3_t	constraint_center;
 	float   constraint_radius;
 	float   constraint_width;
 	float   constraint_speed_factor;
-
 private:
 	float   u0[ 5 ];
-
 public:
-	vec3	abs_origin;
+	vec3_t	abs_origin;
 };
 
 class virtual_game_movement {
@@ -82,17 +77,16 @@ public:
 	virtual void			start_track_prediction_errors( player_t *player ) = 0;
 	virtual void			finish_track_prediction_errors( player_t *player ) = 0;
 	virtual void			diff_print( char const *fmt, ... ) = 0;
-	virtual vec3 const		&get_player_mins( bool ducked ) const = 0;
-	virtual vec3 const		&get_player_maxs( bool ducked ) const = 0;
-	virtual vec3 const		&get_player_view_offset( bool ducked ) const = 0;
+	virtual vec3_t const	&get_player_mins( bool ducked ) const = 0;
+	virtual vec3_t const	&get_player_maxs( bool ducked ) const = 0;
+	virtual vec3_t const	&get_player_view_offset( bool ducked ) const = 0;
 	virtual bool			is_moving_player_stuck( void ) const = 0;
 	virtual player_t		*get_moving_player( void ) const = 0;
 	virtual void			unblock_posher( player_t *player, player_t *pusher ) = 0;
 	virtual void			setup_movement_bounds( player_move_data *move ) = 0;
 };
 
-class player_game_movement
-	: public virtual_game_movement {
+class player_game_movement : public virtual_game_movement {
 public:
 	virtual ~player_game_movement(void) { }
 };
