@@ -76,7 +76,7 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 	switch (panel_to_draw) {
 	case fnv::hash("MatSystemTopPanel"):
 		
-		render::draw_text_string(10, 10, render::fonts::watermark_font, "csgo-cheat", false, color::white(255));
+		render::text(10, 10, render::fonts::watermark_font, "csgo-cheat", false, color::white(255));
 
 		menu::toggle();
 		menu::render();
