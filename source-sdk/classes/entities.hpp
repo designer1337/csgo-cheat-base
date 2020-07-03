@@ -287,8 +287,8 @@ class base_view_model_t : public entity_t {
 public:
 	NETVAR("DT_BaseViewModel", "m_nModelIndex", model_index, int)
 	NETVAR("DT_BaseViewModel", "m_nViewModelIndex", view_model_index, int)
-	NETVAR("DT_BaseViewModel", "m_hWeapon", m_hweapon, int)
-	NETVAR("DT_BaseViewModel", "m_hOwner", m_howner, int)
+	NETVAR("DT_BaseViewModel", "m_hWeapon", weapon, int)
+	NETVAR("DT_BaseViewModel", "m_hOwner", owner, int)
 };
 
 class weapon_t : public entity_t {
