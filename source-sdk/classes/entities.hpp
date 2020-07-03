@@ -445,7 +445,7 @@ public:
 
 	bool is_in_air() {
 		if ( !this ) return false;
-		return !( this->flags() & FL_ON_GROUND );
+		return !( this->flags() & fl_onground );
 	}
 
 	bool is_flashed() {
