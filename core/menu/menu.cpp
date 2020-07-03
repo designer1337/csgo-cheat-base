@@ -6,7 +6,7 @@ auto do_frame = [&](std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t
 		render::draw_filled_rect(x, y, w, h, bg);
 		render::draw_filled_rect(x, y, w, 30, header_text);
 		render::draw_filled_rect(x, y + 30, w, 2, header_line);
-		render::draw_text_string(x + 10, y + 8, render::fonts::watermark_font, name, false, color::white());
+		render::text(x + 10, y + 8, render::fonts::watermark_font, name, false, color::white());
 };
 
 void menu::render() {

@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning( disable : 26451 )
 #include <limits>
 #include <algorithm>
 
@@ -25,7 +26,6 @@ constexpr std::uint32_t FLOAT32_NAN_BITS = 0x7FC00000;
 const float FLOAT32_NAN = bits_to_float(FLOAT32_NAN_BITS);
 #define VEC_T_NAN FLOAT32_NAN
 #define ASSERT( _exp ) ( (void ) 0 )
-
 
 class vec3_t {
 public:
@@ -87,7 +87,7 @@ public:
 		return ((float*)this)[i];
 	}
 
-	inline float Length2D() const {
+	inline float length_2d() const {
 		return sqrt((x * x) + (y * y));
 	}
 	void crossproduct(vec3_t v1, vec3_t v2, vec3_t cross_p) const {
@@ -96,9 +96,9 @@ public:
 		cross_p.z = (v1.x * v2.y) - (v1.y * v2.x); //k
 	}
 
-	vec3_t cross(const vec3_t & vOther) const {
+	vec3_t cross(const vec3_t & other) const {
 		vec3_t res;
-		crossproduct(*this, vOther, res);
+		crossproduct(*this, other, res);
 		return res;
 	}
 
@@ -135,18 +135,18 @@ struct matrix_t {
 	// Creates a matrix where the X axis = forward
 	// the Y axis = left, and the Z axis = up
 	//-----------------------------------------------------------------------------
-	void init(const vec3_t& xAxis, const vec3_t& yAxis, const vec3_t& zAxis, const vec3_t& vecOrigin) {
-		mat_val[0][0] = xAxis.x; mat_val[0][1] = yAxis.x; mat_val[0][2] = zAxis.x; mat_val[0][3] = vecOrigin.x;
-		mat_val[1][0] = xAxis.y; mat_val[1][1] = yAxis.y; mat_val[1][2] = zAxis.y; mat_val[1][3] = vecOrigin.y;
-		mat_val[2][0] = xAxis.z; mat_val[2][1] = yAxis.z; mat_val[2][2] = zAxis.z; mat_val[2][3] = vecOrigin.z;
+	void init(const vec3_t& x, const vec3_t& y, const vec3_t& z, const vec3_t& origin) {
+		mat_val[0][0] = x.x; mat_val[0][1] = y.x; mat_val[0][2] = z.x; mat_val[0][3] = origin.x;
+		mat_val[1][0] = x.y; mat_val[1][1] = y.y; mat_val[1][2] = z.y; mat_val[1][3] = origin.y;
+		mat_val[2][0] = x.z; mat_val[2][1] = y.z; mat_val[2][2] = z.z; mat_val[2][3] = origin.z;
 	}
 
 	//-----------------------------------------------------------------------------
 	// Creates a matrix where the X axis = forward
 	// the Y axis = left, and the Z axis = up
 	//-----------------------------------------------------------------------------
-	matrix_t(const vec3_t& xAxis, const vec3_t& yAxis, const vec3_t& zAxis, const vec3_t& vecOrigin) {
-		init(xAxis, yAxis, zAxis, vecOrigin);
+	matrix_t(const vec3_t& x, const vec3_t& y, const vec3_t& z, const vec3_t& origin) {
+		init(x, y, z, origin);
 	}
 
 	inline void set_origin(vec3_t const& p) {

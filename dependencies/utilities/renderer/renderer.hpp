@@ -18,20 +18,20 @@ enum font_flags {
 };
 
 namespace render {
+
 	void initialize();
 
-	void draw_line(int x1, int y1, int x2, int y2, color colour);
-	void draw_text_wchar(int x, int y, unsigned long font, const wchar_t* string, color colour);
-	void draw_text_string(int x, int y, unsigned long font, std::string string, bool text_centered, color colour);
-	void draw_rect(int x, int y, int w, int h, color color);
-	void draw_filled_rect(int x, int y, int w, int h, color colour);
-	void draw_outline(int x, int y, int w, int h, color colour);
-	void draw_textured_polygon(int n, vertex_t* vertice, color col);
-	void draw_circle(int x, int y, int r, int s, color col);
+	void draw_line(std::int32_t from_x, std::int32_t from_y, std::int32_t to_x, std::int32_t to_y, color color);
+	void text(std::int32_t x, std::int32_t y, unsigned long font, const wchar_t *text, bool centered, color color);
+	void text(std::int32_t x, std::int32_t y, unsigned long font, std::string text, bool centered, color color);
+	void draw_rect(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color);
+	void draw_filled_rect(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color);
+	void draw_outline(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color);
+	void draw_textured_polygon(std::int32_t vertices_count, vertex_t* vertices, color color);
+	void draw_circle(std::int32_t x, std::int32_t y, std::int32_t radius, std::int32_t segments, color color);
 	vec2_t get_text_size(unsigned long font, std::string text);
 
 	namespace fonts {
 		extern unsigned long watermark_font;
 	}
-
 }

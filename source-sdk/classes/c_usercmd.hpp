@@ -25,8 +25,7 @@ enum cmd_buttons {
 	in_weapon2 = (1 << 21),
 	in_bullrush = (1 << 22),
 	in_grenade1 = (1 << 23),
-	in_grenade2 = (1 << 24),
-	in_attack3 = (1 << 25)
+	in_grenade2 = (1 << 24)
 };
 
 struct c_usercmd {
@@ -45,5 +44,5 @@ struct c_usercmd {
 	int randomseed;
 	short mousedx;
 	short mousedy;
-	bool hasbeenpredicted;
+	bool predicted;
 };
