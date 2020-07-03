@@ -47,7 +47,7 @@ enum cvar_flags {
 	fcvar_server_can_execute = (1 << 28),
 	fcvar_server_cannot_query = (1 << 29),
 	fcvar_clientcmd_can_execute = (1 << 30),
-	fcvar_meme_dll = (1 << 31),
+	fcvar_unused = (1 << 31),
 	fcvar_material_thread_mask = (fcvar_reload_materials | fcvar_reload_textures | fcvar_material_system_thread)
 };
 
