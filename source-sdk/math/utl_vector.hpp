@@ -2,7 +2,6 @@
 #include <assert.h>
 
 template <class t, class a = int> class utl_memory {
-
 	public:
 	inline bool is_idx_valid( a i ) const {
 		long x = i;
@@ -25,14 +24,11 @@ template <class t, class a = int> class utl_memory {
 		auto old_allocation_count = allocation_count;
 		int allocation_requested = allocation_count + num;
 		int new_allocation_count = utl_memory_calc_new_allocation_count( allocation_count, grow_size, allocation_requested, sizeof( t ) );
-
 		if ( ( int ) ( a ) new_allocation_count < allocation_requested ) {
 
 			if ( ( int ) ( a ) new_allocation_count == 0 && ( int ) ( a ) ( new_allocation_count - 1 ) >= allocation_requested ) {
-
 				--new_allocation_count;
 			} else {
-
 				if ( ( int ) ( a ) allocation_requested != allocation_requested ) {
 					assert( 0 );
 					return;
@@ -43,9 +39,7 @@ template <class t, class a = int> class utl_memory {
 			}
 		}
 		allocation_count = new_allocation_count;
-
 		if ( memory ) {
-
 			auto ptr = new unsigned char[ allocation_count * sizeof( t ) ];
 			memcpy( ptr, memory, old_allocation_count * sizeof( t ) );
 			memory = ( t * ) ptr;
