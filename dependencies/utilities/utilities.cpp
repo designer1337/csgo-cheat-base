@@ -53,5 +53,5 @@ std::uint8_t* utilities::pattern_scan(const char* module_name, const char* signa
             return &scan_bytes[i];
     }
 
-    return nullptr;
+    throw std::runtime_error(std::string("Wrong signature: ") + signature);
 }
