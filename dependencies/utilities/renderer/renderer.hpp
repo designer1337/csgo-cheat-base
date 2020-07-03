@@ -20,7 +20,7 @@ enum font_flags {
 namespace render {
 	void initialize();
 
-	void draw_line(std::int32_t from_x, std::int32_t from_y, std::int32_t to_x, std::int32_t to_y, color colour);
+	void draw_line(std::int32_t from_x, std::int32_t from_y, std::int32_t to_x, std::int32_t to_y, color color);
 	void text(std::int32_t x, std::int32_t y, unsigned long font, const wchar_t *text, bool centered, color color);
 	void text(std::int32_t x, std::int32_t y, unsigned long font, std::string text, bool centered, color color);
 	void draw_rect(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color);
