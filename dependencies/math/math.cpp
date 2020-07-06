@@ -150,47 +150,25 @@ bool math::screen_transform(const vec3_t & point, vec3_t & screen) {
 	return (w < 0.001f);
 }
 
-bool math::world_to_screen(const vec3_t & origin, vec3_t & screen) {
-	auto matrix = interfaces::engine->world_to_screen_matrix();
+bool math::world_to_screen(const vec3_t & origin, vec2_t & screen) {
+	static std::uintptr_t view_matrix;
+	if ( !view_matrix )
+		view_matrix = *reinterpret_cast< std::uintptr_t* >( reinterpret_cast< std::uintptr_t >( utilities::pattern_scan( "client.dll", "0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9" ) ) + 3 ) + 176;
 
-	auto find_point = [](vec3_t & point, int screen_w, int screen_h, int degrees) -> void {
-		float x2 = screen_w * 0.5f;
-		float y2 = screen_h * 0.5f;
+	const auto& matrix = *reinterpret_cast< view_matrix_t* >( view_matrix );
 
-		float d = sqrt(pow((point.x - x2), 2) + (pow((point.y - y2), 2))); //Distance
-		float r = degrees / d; //Segment ratio
-
-		point.x = r * point.x + (1 - r) * x2; //find point that divides the segment
-		point.y = r * point.y + (1 - r) * y2; //into the ratio (1-r):r
-	};
-
-	float w = matrix[3][0] * origin.x + matrix[3][1] * origin.y + matrix[3][2] * origin.z + matrix[3][3];
-
-	int screen_width, screen_height;
-	interfaces::engine->get_screen_size(screen_width, screen_height);
-
-	float inverse_width = -1.0f / w;
-	bool behind = true;
-
-	if (w > 0.01) {
-		inverse_width = 1.0f / w;
-		behind = false;
-	}
-
-	screen.x = (float)((screen_width / 2) + (0.5 * ((matrix[0][0] * origin.x
-		+ matrix[0][1] * origin.y
-		+ matrix[0][2] * origin.z
-		+ matrix[0][3]) * inverse_width) * screen_width + 0.5));
-
-	screen.y = (float)((screen_height / 2) - (0.5 * ((matrix[1][0] * origin.x
-		+ matrix[1][1] * origin.y
-		+ matrix[1][2] * origin.z
-		+ matrix[1][3]) * inverse_width) * screen_height + 0.5));
-
-	if (screen.x > screen_width || screen.x < 0 || screen.y > screen_height || screen.y < 0 || behind) {
-		find_point(screen, screen_width, screen_height, screen_height / 2);
+	const auto w = matrix.m[ 3 ][ 0 ] * origin.x + matrix.m[ 3 ][ 1 ] * origin.y + matrix.m[ 3 ][ 2 ] * origin.z + matrix.m[ 3 ][ 3 ];
+	if ( w < 0.001f )
 		return false;
-	}
 
-	return !(behind);
+	int x, y;
+	interfaces::engine->get_screen_size( x, y );
+	
+	screen.x = static_cast<float>(x) / 2.0f;
+	screen.y = static_cast<float>(y) / 2.0f;
+
+	screen.x *= 1.0f + ( matrix.m[ 0 ][ 0 ] * origin.x + matrix.m[ 0 ][ 1 ] * origin.y + matrix.m[ 0 ][ 2 ] * origin.z + matrix.m[ 0 ][ 3 ] ) / w;
+	screen.y *= 1.0f - ( matrix.m[ 1 ][ 0 ] * origin.x + matrix.m[ 1 ][ 1 ] * origin.y + matrix.m[ 1 ][ 2 ] * origin.z + matrix.m[ 1 ][ 3 ] ) / w;
+
+	return true;
 }
