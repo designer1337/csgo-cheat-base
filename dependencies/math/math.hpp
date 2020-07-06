@@ -13,5 +13,5 @@ namespace math {
 	vec3_t vector_multiply(vec3_t&, vec3_t&);
 	vec3_t vector_divide(vec3_t&, vec3_t&);
 	bool screen_transform(const vec3_t& point, vec3_t& screen);
-	bool world_to_screen(const vec3_t& origin, vec3_t& screen);
+	bool world_to_screen(const vec3_t& origin, vec2_t& screen);
 };
