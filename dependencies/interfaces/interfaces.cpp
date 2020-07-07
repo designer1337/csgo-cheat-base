@@ -1,32 +1,6 @@
 #include "interfaces.hpp"
 #include "../utilities/csgo.hpp"
 
-i_base_client_dll* interfaces::client = nullptr;
-i_input* interfaces::input = nullptr;
-i_client_entity_list* interfaces::entity_list = nullptr;
-iv_engine_client* interfaces::engine = nullptr;
-i_client_mode* interfaces::clientmode = nullptr;
-i_client_state* interfaces::clientstate = nullptr;
-i_panel* interfaces::panel = nullptr;
-i_surface* interfaces::surface = nullptr;
-c_global_vars_base* interfaces::globals = nullptr;
-i_material_system* interfaces::material_system = nullptr;
-iv_model_info* interfaces::model_info = nullptr;
-iv_model_render* interfaces::model_render = nullptr;
-i_render_view* interfaces::render_view = nullptr;
-i_console* interfaces::console = nullptr;
-i_localize* interfaces::localize = nullptr;
-i_game_event_manager2* interfaces::event_manager = nullptr;
-i_inputsytem* interfaces::inputsystem = nullptr;
-iv_debug_overlay* interfaces::debug_overlay = nullptr;
-IDirect3DDevice9* interfaces::directx = nullptr;
-trace* interfaces::trace_ray = nullptr;
-glow_manager_t* interfaces::glow_manager = nullptr;
-player_game_movement* interfaces::game_movement = nullptr;
-player_prediction* interfaces::prediction = nullptr;
-player_move_helper* interfaces::move_helper = nullptr;
-i_weapon_system* interfaces::weapon_system = nullptr;
-
 bool interfaces::initialize() {
 	client = get_interface<i_base_client_dll, interface_type::index>("client.dll", "VClient018");
 	entity_list = get_interface<i_client_entity_list, interface_type::index>("client.dll", "VClientEntityList003");
@@ -50,12 +24,12 @@ bool interfaces::initialize() {
 	clientmode = **reinterpret_cast<i_client_mode * **>((*reinterpret_cast<uintptr_t * *>(client))[10] + 5);
 	globals = **reinterpret_cast<c_global_vars_base***>((*reinterpret_cast<uintptr_t**>(client))[11] + 10);
 
-	clientstate = **(i_client_state ***)(utilities::pattern_scan("engine.dll", sig_client_state) + 1);
-	directx = **(IDirect3DDevice9***)(utilities::pattern_scan("shaderapidx9.dll", sig_directx) + 1);
-	input = *(i_input**)(utilities::pattern_scan("client.dll", sig_input) + 1);
-	glow_manager = (glow_manager_t*)(*(uintptr_t*)(utilities::pattern_scan("client.dll", sig_glow_manager) + 3));
-	move_helper = **(player_move_helper***)(utilities::pattern_scan("client.dll", sig_player_move_helper) + 2);
-	weapon_system = *(i_weapon_system**)(utilities::pattern_scan("client.dll", sig_weapon_data) + 2);
+	clientstate = **reinterpret_cast<i_client_state***>(utilities::pattern_scan("engine.dll", sig_client_state) + 1);
+	directx = **reinterpret_cast<IDirect3DDevice9***>(utilities::pattern_scan("shaderapidx9.dll", sig_directx) + 1);
+	input = *reinterpret_cast<i_input**>(utilities::pattern_scan("client.dll", sig_input) + 1);
+	glow_manager = reinterpret_cast<glow_manager_t*>(*reinterpret_cast<uintptr_t*>(utilities::pattern_scan("client.dll", sig_glow_manager) + 3));
+	move_helper = **reinterpret_cast<player_move_helper***>(utilities::pattern_scan("client.dll", sig_player_move_helper) + 2);
+	weapon_system = *reinterpret_cast<i_weapon_system**>(utilities::pattern_scan("client.dll", sig_weapon_data) + 2);
 
 	console::log("[setup] interfaces initialized!\n");
 

@@ -30,9 +30,9 @@ namespace interfaces {
 	enum class interface_type { index, bruteforce };
 
 	template <typename ret, interface_type type>
-	ret* get_interface(std::string module_name, std::string interface_name) {
+	ret* get_interface(const std::string& module_name, const std::string& interface_name) {
 		using create_interface_fn = void* (*)(const char*, int*);
-		create_interface_fn fn = reinterpret_cast<create_interface_fn>(GetProcAddress(GetModuleHandle(module_name.c_str()), "CreateInterface"));
+		const auto fn = reinterpret_cast<create_interface_fn>(GetProcAddress(GetModuleHandle(module_name.c_str()), "CreateInterface"));
 
 		if (fn) {
 			void* result = nullptr;
@@ -45,8 +45,8 @@ namespace interfaces {
 			case interface_type::bruteforce:
 				char buf[128];
 
-				for (uint32_t i = 0; i <= 100; i++) {
-					memset((void*)buf, 0, sizeof buf);
+				for (uint32_t i = 0; i <= 100; ++i) {
+					memset(static_cast<void*>(buf), 0, sizeof buf);
 
 					result = fn(interface_name.c_str(), nullptr);
 
@@ -66,31 +66,31 @@ namespace interfaces {
 		throw std::runtime_error( module_name + " wasn't found" );
 	}
 
-	extern i_base_client_dll* client;
-	extern i_input* input;
-	extern i_client_entity_list* entity_list;
-	extern iv_engine_client* engine;
-	extern i_client_mode* clientmode;
-	extern i_client_state* clientstate;
-	extern i_panel* panel;
-	extern i_surface* surface;
-	extern c_global_vars_base* globals;
-	extern i_material_system* material_system;
-	extern iv_model_info* model_info;
-	extern iv_model_render* model_render;
-	extern i_render_view* render_view;
-	extern iv_debug_overlay* debug_overlay;
-	extern i_console* console;
-	extern i_localize* localize;
-	extern i_game_event_manager2* event_manager;
-	extern i_inputsytem* inputsystem;
-	extern IDirect3DDevice9* directx;
-	extern trace* trace_ray;
-	extern glow_manager_t* glow_manager;
-	extern player_game_movement* game_movement;
-	extern player_prediction* prediction;
-	extern player_move_helper* move_helper;
-	extern i_weapon_system* weapon_system;
+	inline i_base_client_dll* client;
+	inline i_input* input;
+	inline i_client_entity_list* entity_list;
+	inline iv_engine_client* engine;
+	inline i_client_mode* clientmode;
+	inline i_client_state* clientstate;
+	inline i_panel* panel;
+	inline i_surface* surface;
+	inline c_global_vars_base* globals;
+	inline i_material_system* material_system;
+	inline iv_model_info* model_info;
+	inline iv_model_render* model_render;
+	inline i_render_view* render_view;
+	inline iv_debug_overlay* debug_overlay;
+	inline i_console* console;
+	inline i_localize* localize;
+	inline i_game_event_manager2* event_manager;
+	inline i_inputsytem* inputsystem;
+	inline IDirect3DDevice9* directx;
+	inline trace* trace_ray;
+	inline glow_manager_t* glow_manager;
+	inline player_game_movement* game_movement;
+	inline player_prediction* prediction;
+	inline player_move_helper* move_helper;
+	inline i_weapon_system* weapon_system;
 
 	bool initialize();
 }
