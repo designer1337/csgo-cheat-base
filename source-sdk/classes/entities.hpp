@@ -263,8 +263,12 @@ public:
 		return (*(original_fn * *)networkable())[13](networkable());
 	}
 
+	bool dormant( ) {
+		using original_fn = bool( __thiscall* )( void* );
+		return ( *static_cast< original_fn** >( networkable( ) ) )[ 9 ]( networkable( ) );
+	}
+	
 	NETVAR("DT_CSPlayer", "m_fFlags", flags, int)
-	OFFSET(bool, dormant, 0xED)
 	NETVAR("DT_BaseEntity", "m_hOwnerEntity", owner_handle, unsigned long)
 	NETVAR("DT_CSPlayer", "m_flSimulationTime", simulation_time, float)
 	NETVAR("DT_BasePlayer", "m_vecOrigin", origin, vec3_t)
