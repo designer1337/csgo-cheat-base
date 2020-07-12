@@ -3,10 +3,12 @@
 #include "../features/misc/engine_prediction.hpp"
 #include "../menu/menu.hpp"
 
-hooks::create_move::fn create_move_original = nullptr;
-hooks::paint_traverse::fn paint_traverse_original = nullptr;
+namespace hooks {
 
-bool hooks::initialize() {
+create_move::fn create_move_original = nullptr;
+paint_traverse::fn paint_traverse_original = nullptr;
+
+bool initialize() {
 	const auto create_move_target = reinterpret_cast<void*>(get_virtual(interfaces::clientmode, 24));
 	const auto paint_traverse_target = reinterpret_cast<void*>(get_virtual(interfaces::panel, 41));
 
@@ -26,20 +28,21 @@ bool hooks::initialize() {
 	return true;
 }
 
-void hooks::release() {
+void release() {
 	MH_Uninitialize();
 
 	MH_DisableHook(MH_ALL_HOOKS);
 }
 
-bool __stdcall hooks::create_move::hook(float input_sample_frametime, c_usercmd* cmd) {
+bool __stdcall create_move::hook(float input_sample_frametime, c_usercmd* cmd) {
 	create_move_original(input_sample_frametime, cmd);
 
 	if (!cmd || !cmd->command_number)
 		return false;
 
 	csgo::local_player = static_cast<player_t*>(interfaces::entity_list->get_client_entity(interfaces::engine->get_local_player()));
-
+	csgo::cmd = cmd;
+	
 	uintptr_t* frame_pointer;
 	__asm mov frame_pointer, ebp;
 	bool& send_packet = *reinterpret_cast<bool*>(*frame_pointer - 0x1C);
@@ -48,7 +51,7 @@ bool __stdcall hooks::create_move::hook(float input_sample_frametime, c_usercmd*
 	auto old_forwardmove = cmd->forwardmove;
 	auto old_sidemove = cmd->sidemove;
 
-	misc::movement::bunny_hop(cmd);
+	misc::on_create_move();
 
 	prediction::start(cmd); {
 
@@ -70,7 +73,7 @@ bool __stdcall hooks::create_move::hook(float input_sample_frametime, c_usercmd*
 	return false;
 }
 
-void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repaint, bool allow_force) {
+void __stdcall paint_traverse::hook(unsigned int panel, bool force_repaint, bool allow_force) {
 	auto panel_to_draw = fnv::hash(interfaces::panel->get_panel_name(panel));
 
 	switch (panel_to_draw) {
@@ -91,3 +94,4 @@ void __stdcall hooks::paint_traverse::hook(unsigned int panel, bool force_repain
 
 	paint_traverse_original(interfaces::panel, panel, force_repaint, allow_force);
 }
+} // namespace hooks

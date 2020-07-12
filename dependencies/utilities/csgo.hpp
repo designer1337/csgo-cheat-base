@@ -38,5 +38,6 @@
 #define sig_prediction_random_seed "8B 0D ? ? ? ? BA ? ? ? ? E8 ? ? ? ? 83 C4 04"
 
 namespace csgo {
-	extern player_t* local_player;
-}
+extern player_t* local_player;
+extern c_usercmd *cmd;
+} // namespace csgo

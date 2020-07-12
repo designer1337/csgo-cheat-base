@@ -1,6 +1,11 @@
 #include "../features.hpp"
 
-void misc::movement::bunny_hop(c_usercmd* cmd) {
+namespace misc {
+void on_create_move() {
+	movement::bunny_hop();
+}
+namespace movement {
+void bunny_hop() {
 	if (!variables::test_bool)
 		return;
 
@@ -10,5 +15,7 @@ void misc::movement::bunny_hop(c_usercmd* cmd) {
 		return;
 
 	if (!(csgo::local_player->flags() & fl_onground))
-		cmd->buttons &= ~in_jump;
+		csgo::cmd->buttons &= ~in_jump;
 };
+} // namespace movement
+} // namespace misc
