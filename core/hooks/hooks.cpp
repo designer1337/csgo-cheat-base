@@ -51,9 +51,9 @@ bool __stdcall create_move::hook(float input_sample_frametime, c_usercmd* cmd) {
 	auto old_forwardmove = cmd->forwardmove;
 	auto old_sidemove = cmd->sidemove;
 
-	misc::movement::bunny_hop(cmd);
+	misc::on_create_move();
 
-	prediction::start(cmd); {
+	prediction::start(); {
 
 
 
