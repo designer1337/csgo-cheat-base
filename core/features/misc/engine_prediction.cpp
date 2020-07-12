@@ -1,7 +1,7 @@
 #include "engine_prediction.hpp"
 
 namespace prediction {
-void start() {
+void start(c_usercmd* cmd) {
 	if (!csgo::local_player)
 		return;
 
