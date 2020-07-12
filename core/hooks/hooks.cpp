@@ -53,7 +53,7 @@ bool __stdcall create_move::hook(float input_sample_frametime, c_usercmd* cmd) {
 
 	misc::on_create_move();
 
-	prediction::start(); {
+	prediction::start(cmd); {
 
 
 
