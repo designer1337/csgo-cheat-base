@@ -34,5 +34,5 @@ void prediction::end() {
 	*prediction_random_seed = -1;
 
 	interfaces::globals->cur_time = old_cur_time;
-	interfaces::globals->frame_time = old_cur_time;
+	interfaces::globals->frame_time = old_frame_time;
 }
