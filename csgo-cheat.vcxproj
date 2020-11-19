@@ -50,7 +50,7 @@
     <IntDir>.\intermediates\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\output\debug\</OutDir>
+    <OutDir>.\output\release\</OutDir>
     <IntDir>.\intermediates\</IntDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <IncludePath>$(IncludePath)</IncludePath>
