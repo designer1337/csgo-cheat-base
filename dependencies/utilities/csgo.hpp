@@ -12,6 +12,8 @@
 #include <unordered_map>
 #include <intrin.h>
 #include <filesystem>
+#include <stdio.h>
+#include <time.h>
 
 #include "../utilities/singleton.hpp"
 #include "../utilities/fnv.hpp"
@@ -32,11 +34,11 @@
 #define sig_glow_manager "0F 11 05 ? ? ? ? 83 C8 01 C7 05 ? ? ? ? 00 00 00 00"
 #define sig_player_move_helper "8B 0D ? ? ? ? 8B 46 08 68"
 #define sig_weapon_data "8B 35 ? ? ? ? FF 10 0F B7 C0"
-
+#define sig_alloc_key_value "FF 52 04 85 C0 74 0C 56"
 //misc
 #define sig_set_angles "55 8B EC 83 E4 F8 83 EC 64 53 56 57 8B F1"
 #define sig_prediction_random_seed "8B 0D ? ? ? ? BA ? ? ? ? E8 ? ? ? ? 83 C4 04"
-
+#define sig_file_system "8B 0D ? ? ? ? 8D 95 ? ? ? ? 6A 00 C6"
 namespace csgo {
 	extern player_t* local_player;
 }

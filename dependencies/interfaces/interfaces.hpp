@@ -3,7 +3,6 @@
 #include <cstdint>
 #include <string>
 #include <stdexcept>
-
 #include "i_base_client_dll.hpp"
 #include "i_client_entity_list.hpp"
 #include "iv_engine_client.hpp"
@@ -47,9 +46,7 @@ namespace interfaces {
 
 				for (uint32_t i = 0; i <= 100; ++i) {
 					memset(static_cast<void*>(buf), 0, sizeof buf);
-
 					result = fn(interface_name.c_str(), nullptr);
-
 					if (result)
 						break;
 				}
@@ -70,8 +67,8 @@ namespace interfaces {
 	inline i_input* input;
 	inline i_client_entity_list* entity_list;
 	inline iv_engine_client* engine;
-	inline i_client_mode* clientmode;
-	inline i_client_state* clientstate;
+	inline i_client_mode* client_mode;
+	inline i_client_state* client_state;
 	inline i_panel* panel;
 	inline i_surface* surface;
 	inline c_global_vars_base* globals;
@@ -91,6 +88,10 @@ namespace interfaces {
 	inline player_prediction* prediction;
 	inline player_move_helper* move_helper;
 	inline i_weapon_system* weapon_system;
+	inline void* key_values_system = nullptr;
+	inline std::uint8_t* alloc_key_values_client = nullptr;
+	inline std::uint8_t* alloc_key_values_engine = nullptr;
+	inline void* file_system = nullptr;
 
 	bool initialize();
 }

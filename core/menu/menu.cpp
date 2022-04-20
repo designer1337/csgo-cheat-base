@@ -6,7 +6,7 @@ auto do_frame = [&](std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t
 		render::draw_filled_rect(x, y, w, h, bg);
 		render::draw_filled_rect(x, y, w, 30, header_text);
 		render::draw_filled_rect(x, y + 30, w, 2, header_line);
-		render::text(x + 10, y + 8, render::fonts::watermark_font, name, false, color::white());
+		render::text(x + 10, y + 8, render::fonts::menu_font, name, false, color::white());
 };
 
 void menu::render() {
@@ -15,26 +15,29 @@ void menu::render() {
 
 	do_frame(variables::menu::x, variables::menu::y, variables::menu::w, variables::menu::h, color(36, 36, 36, 255), color(25, 25, 25, 255), color(36, 36, 36, 255), "csgo-cheat");
 	
-	menu_framework::group_box(variables::menu::x + 5, variables::menu::y + 35, 100, 260, render::fonts::watermark_font, "tabs", false); {
-		menu_framework::tab(variables::menu::x + 5, variables::menu::y + (260 / 2) - 35, 100, 30, render::fonts::watermark_font, "aimbot", menu::current_tab, 0, false);
-		menu_framework::tab(variables::menu::x + 5, variables::menu::y + (260 / 2), 100, 30, render::fonts::watermark_font, "visuals", menu::current_tab, 1, false);
-		menu_framework::tab(variables::menu::x + 5, variables::menu::y + (260 / 2) + 35, 100, 30, render::fonts::watermark_font, "misc", menu::current_tab, 2, false);
+	menu_framework::group_box(variables::menu::x + 5, variables::menu::y + 35, 100, 260, render::fonts::menu_font, "tabs", false); {
+		menu_framework::tab(variables::menu::x + 5, variables::menu::y + (260 / 2) - 35, 100, 30, render::fonts::menu_font, "aimbot", menu::current_tab, 0, false);
+		menu_framework::tab(variables::menu::x + 5, variables::menu::y + (260 / 2), 100, 30, render::fonts::menu_font, "visuals", menu::current_tab, 1, false);
+		menu_framework::tab(variables::menu::x + 5, variables::menu::y + (260 / 2) + 35, 100, 30, render::fonts::menu_font, "misc", menu::current_tab, 2, false);
 	}
 
 	switch (current_tab) {
 	case 0:
-		menu_framework::group_box(variables::menu::x + 110, variables::menu::y + 35, 285, 260, render::fonts::watermark_font, "aimbot", false); {
-			menu_framework::check_box(variables::menu::x + 120, variables::menu::y + 45, variables::menu::x + 375, render::fonts::watermark_font, "test bool", variables::test_bool);
-			menu_framework::slider(variables::menu::x + 120, variables::menu::y + 60, 125, render::fonts::watermark_font, "test slider", variables::test_float, -101.f, 101.f);
+		menu_framework::group_box(variables::menu::x + 110, variables::menu::y + 35, 285, 260, render::fonts::menu_font, "aimbot", false); {
+			menu_framework::check_box(variables::menu::x + 120, variables::menu::y + 45, variables::menu::x + 375, render::fonts::menu_font, "test bool", variables::test_bool);
+			menu_framework::slider(variables::menu::x + 120, variables::menu::y + 60, 125, render::fonts::menu_font, "test slider", variables::test_float, 0.f, 101.f);
+
+			menu_framework::color_picker(variables::menu::x + 120, variables::menu::y + 75, variables::menu::x + 375, "color pick 1", variables::color_picker_1::clr, variables::color_picker_1::opened);
+			menu_framework::color_picker(variables::menu::x + 120, variables::menu::y + 90, variables::menu::x + 375, "color pick 2", variables::color_picker_2::clr, variables::color_picker_2::opened);
 		}
 		break;
 	case 1:
-		menu_framework::group_box(variables::menu::x + 110, variables::menu::y + 35, 285, 260, render::fonts::watermark_font, "visuals", false); {
+		menu_framework::group_box(variables::menu::x + 110, variables::menu::y + 35, 285, 260, render::fonts::menu_font, "visuals", false); {
 
 		}
 		break;
 	case 2:
-		menu_framework::group_box(variables::menu::x + 110, variables::menu::y + 35, 285, 260, render::fonts::watermark_font, "misc", false); {
+		menu_framework::group_box(variables::menu::x + 110, variables::menu::y + 35, 285, 260, render::fonts::menu_font, "misc", false); {
 
 		}
 		break;

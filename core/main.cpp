@@ -1,5 +1,6 @@
 #include "../dependencies/utilities/csgo.hpp"
 #include "features/features.hpp"
+#include "../dependencies/utilities/utilities.hpp"
 
 unsigned long WINAPI initialize(void* instance) {
 	while (!GetModuleHandleA("serverbrowser.dll"))

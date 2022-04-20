@@ -1,13 +1,13 @@
 #include "renderer.hpp"
 
-unsigned long render::fonts::watermark_font;
+unsigned long render::fonts::menu_font;
 
 void render::initialize() {
-	render::fonts::watermark_font = interfaces::surface->font_create();
+	render::fonts::menu_font = interfaces::surface->font_create();
 
-	interfaces::surface->set_font_glyph(render::fonts::watermark_font, "Tahoma", 12, 500, 0, 0, font_flags::fontflag_dropshadow);
+	interfaces::surface->set_font_glyph(render::fonts::menu_font, "Tahoma", 12, 500, 0, 0, font_flags::fontflag_antialias | font_flags::fontflag_outline);
 
-	console::log("[setup] render initialized!\n");
+	console::log("render initialized!");
 }
 
 void render::draw_line(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, color colour) {
@@ -15,7 +15,7 @@ void render::draw_line(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::i
 	interfaces::surface->draw_line(x1, y1, x2, y2);
 }
 
-void render::text(std::int32_t x, std::int32_t y, unsigned long font, const wchar_t *text, bool centered, color color) {
+void render::text(std::int32_t x, std::int32_t y, unsigned long font, const wchar_t* text, bool centered, color color) {
 	interfaces::surface->draw_text_font(font);
 	int text_width, text_height;
 
@@ -24,7 +24,7 @@ void render::text(std::int32_t x, std::int32_t y, unsigned long font, const wcha
 		interfaces::surface->draw_text_pos(x - text_width / 2, y);
 	}
 	else
-		interfaces::surface->draw_text_pos(x, y );
+		interfaces::surface->draw_text_pos(x, y);
 
 	interfaces::surface->set_text_color(color.r, color.g, color.b, color.a);
 	interfaces::surface->draw_render_text(text, wcslen(text));
@@ -54,6 +54,15 @@ void render::draw_rect(std::int32_t x, std::int32_t y, std::int32_t width, std::
 void render::draw_filled_rect(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color) {
 	interfaces::surface->set_drawing_color(color.r, color.g, color.b, color.a);
 	interfaces::surface->draw_filled_rectangle(x, y, width, height);
+}
+
+void render::draw_fade(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color1, color color2, bool horizontal) {
+	interfaces::surface->set_drawing_color(color1.r, color1.g, color1.b, color1.a);
+	interfaces::surface->draw_filled_rect_fade(x, y, x + width, y + height, 255, 0, horizontal);
+
+	interfaces::surface->set_drawing_color(color2.r, color2.g, color2.b, color2.a);
+	interfaces::surface->draw_filled_rect_fade(x, y, x + width, y + height, 0, 255, horizontal);
+
 }
 
 void render::draw_outline(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, color color) {
